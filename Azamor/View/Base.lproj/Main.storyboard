@@ -1100,7 +1100,7 @@
                         <outlet property="backgroundImage" destination="wfT-n5-IGG" id="wd2-Qd-MLK"/>
                         <outlet property="homeButton" destination="q7i-XH-IcF" id="mcd-9u-qkZ"/>
                         <outlet property="inventoryButton" destination="YCI-Wf-imm" id="g7e-o5-Roy"/>
-                        <segue destination="yeA-9y-obb" kind="presentation" identifier="storyToDice" id="Hyt-VF-clk"/>
+                        <segue destination="yeA-9y-obb" kind="presentation" identifier="storyToDice" modalPresentationStyle="fullScreen" modalTransitionStyle="flipHorizontal" id="Hyt-VF-clk"/>
                         <segue destination="3a3-Hp-And" kind="presentation" identifier="storyToEncounter" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="bPG-h0-hhW"/>
                         <segue destination="nLm-1b-qua" kind="presentation" identifier="storyToItems" modalPresentationStyle="fullScreen" id="pLF-NR-1Hn"/>
                         <segue destination="2w4-sK-Uhb" kind="presentation" identifier="storyToInventory" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="XjI-V4-EpU"/>
@@ -2099,41 +2099,41 @@
             <objects>
                 <viewController id="yeA-9y-obb" customClass="DiceViewController" customModule="Azamor" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="aUt-Cx-YUS">
-                        <rect key="frame" x="0.0" y="0.0" width="390" height="790"/>
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="diceBack1" translatesAutoresizingMaskIntoConstraints="NO" id="HeT-LL-vNe">
-                                <rect key="frame" x="0.0" y="0.0" width="390" height="790"/>
+                                <rect key="frame" x="0.0" y="44" width="390" height="800"/>
                             </imageView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="D20" translatesAutoresizingMaskIntoConstraints="NO" id="K4v-Pd-8v0">
-                                <rect key="frame" x="-56" y="206" width="502" height="379"/>
+                                <rect key="frame" x="-56" y="250" width="502" height="389"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Roll Strength" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.29999999999999999" translatesAutoresizingMaskIntoConstraints="NO" id="buO-6N-chM">
-                                <rect key="frame" x="101" y="55" width="188" height="50"/>
+                                <rect key="frame" x="101" y="99" width="188" height="50"/>
                                 <fontDescription key="fontDescription" name="Papyrus" family="Papyrus" pointSize="32"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="DC To Beat: 10" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.29999999999999999" translatesAutoresizingMaskIntoConstraints="NO" id="fyK-yC-liZ">
-                                <rect key="frame" x="108" y="113" width="174" height="41"/>
+                                <rect key="frame" x="108" y="157" width="174" height="41"/>
                                 <fontDescription key="fontDescription" name="Papyrus" family="Papyrus" pointSize="26"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You have 0 Attempts Remaining" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.29999999999999999" translatesAutoresizingMaskIntoConstraints="NO" id="BLZ-dE-RRB">
-                                <rect key="frame" x="28" y="605" width="335" height="38"/>
+                                <rect key="frame" x="28" y="659" width="335" height="38"/>
                                 <fontDescription key="fontDescription" name="Papyrus" family="Papyrus" pointSize="24"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="20" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.29999999999999999" translatesAutoresizingMaskIntoConstraints="NO" id="dfc-jR-sWr">
-                                <rect key="frame" x="178.66666666666666" y="373.66666666666669" width="33" height="44"/>
+                                <rect key="frame" x="178.66666666666666" y="422.66666666666669" width="33" height="44"/>
                                 <fontDescription key="fontDescription" name="Papyrus" family="Papyrus" pointSize="28"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6f8-4J-2BN">
-                                <rect key="frame" x="146" y="666" width="99" height="50"/>
+                                <rect key="frame" x="146" y="720" width="99" height="50"/>
                                 <color key="backgroundColor" red="0.78390204910000005" green="0.65896183249999996" blue="0.241400063" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="44" id="JiC-JD-Lqg"/>
@@ -2149,7 +2149,7 @@
                                 </connections>
                             </button>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mLs-Ge-Kjy">
-                                <rect key="frame" x="146" y="666" width="99" height="50"/>
+                                <rect key="frame" x="146" y="720" width="99" height="50"/>
                                 <color key="backgroundColor" red="0.78390204910000005" green="0.65896183249999996" blue="0.241400063" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="44" id="NQC-ka-Bts"/>
@@ -2215,9 +2215,7 @@
         </scene>
     </scenes>
     <designables>
-        <designable name="3c4-Ei-aM5">
-            <size key="intrinsicContentSize" width="3437.6666666666665" height="62"/>
-        </designable>
+        <designable name="3c4-Ei-aM5"/>
     </designables>
     <inferredMetricsTieBreakers>
         <segue reference="bPG-h0-hhW"/>

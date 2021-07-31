@@ -24,6 +24,8 @@
 		A12CBF34268E13450003BF11 /* Character.swift in Sources */ = {isa = PBXBuildFile; fileRef = A12CBF33268E13450003BF11 /* Character.swift */; };
 		A12CBF36268E15D60003BF11 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = A12CBF35268E15D60003BF11 /* Item.swift */; };
 		A12CBF38268E18570003BF11 /* StoryTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = A12CBF37268E18570003BF11 /* StoryTab.swift */; };
+		A18BBB6F26B4764800F71BDE /* StoryTabViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A18BBB6E26B4764800F71BDE /* StoryTabViewModel.swift */; };
+		A18BBB7026B4764800F71BDE /* StoryTabViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A18BBB6E26B4764800F71BDE /* StoryTabViewModel.swift */; };
 		A1A5B34E2694F5E5009410E5 /* DiceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A5B34D2694F5E5009410E5 /* DiceViewController.swift */; };
 		A1A5B350269512C1009410E5 /* EncounterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A5B34F269512C1009410E5 /* EncounterViewController.swift */; };
 		A1A5B3522695145E009410E5 /* ItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A5B3512695145E009410E5 /* ItemViewController.swift */; };
@@ -147,6 +149,7 @@
 		A12CBF33268E13450003BF11 /* Character.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Character.swift; sourceTree = "<group>"; };
 		A12CBF35268E15D60003BF11 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		A12CBF37268E18570003BF11 /* StoryTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryTab.swift; sourceTree = "<group>"; };
+		A18BBB6E26B4764800F71BDE /* StoryTabViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryTabViewModel.swift; sourceTree = "<group>"; };
 		A1A5B34D2694F5E5009410E5 /* DiceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiceViewController.swift; sourceTree = "<group>"; };
 		A1A5B34F269512C1009410E5 /* EncounterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EncounterViewController.swift; sourceTree = "<group>"; };
 		A1A5B3512695145E009410E5 /* ItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemViewController.swift; sourceTree = "<group>"; };
@@ -299,8 +302,9 @@
 		A12CBEF8268C82C70003BF11 /* Azamor */ = {
 			isa = PBXGroup;
 			children = (
+				A18BBB6D26B475D600F71BDE /* View Models */,
 				A1A5B36526982300009410E5 /* Sounds */,
-				A12CBF2E268C92F70003BF11 /* Model */,
+				A12CBF2E268C92F70003BF11 /* Models */,
 				A12CBF2D268C92D60003BF11 /* View */,
 				A12CBF2C268C92C20003BF11 /* Controller */,
 				A12CBF02268C82C70003BF11 /* Assets.xcassets */,
@@ -358,7 +362,7 @@
 			path = View;
 			sourceTree = "<group>";
 		};
-		A12CBF2E268C92F70003BF11 /* Model */ = {
+		A12CBF2E268C92F70003BF11 /* Models */ = {
 			isa = PBXGroup;
 			children = (
 				A12CBF33268E13450003BF11 /* Character.swift */,
@@ -370,7 +374,15 @@
 				A1A5B37126983FE0009410E5 /* audioBrain.swift */,
 				A1B9948E26A10A8D003E6515 /* gameBrain.swift */,
 			);
-			path = Model;
+			path = Models;
+			sourceTree = "<group>";
+		};
+		A18BBB6D26B475D600F71BDE /* View Models */ = {
+			isa = PBXGroup;
+			children = (
+				A18BBB6E26B4764800F71BDE /* StoryTabViewModel.swift */,
+			);
+			path = "View Models";
 			sourceTree = "<group>";
 		};
 		A1A5B36526982300009410E5 /* Sounds */ = {
@@ -782,6 +794,7 @@
 				A1A5B350269512C1009410E5 /* EncounterViewController.swift in Sources */,
 				A12CBEFA268C82C70003BF11 /* AppDelegate.swift in Sources */,
 				A112EBE7268FBD0D006464B2 /* Action.swift in Sources */,
+				A18BBB6F26B4764800F71BDE /* StoryTabViewModel.swift in Sources */,
 				A1E20B0B2690F495000677C7 /* StoryTabViewController.swift in Sources */,
 				A12CBF36268E15D60003BF11 /* Item.swift in Sources */,
 				A12CBEFC268C82C70003BF11 /* SceneDelegate.swift in Sources */,
@@ -792,6 +805,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A18BBB7026B4764800F71BDE /* StoryTabViewModel.swift in Sources */,
 				A12CBF11268C82C80003BF11 /* AzamorTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -962,6 +976,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = X464DV3JXR;
 				INFOPLIST_FILE = Azamor/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -981,6 +996,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = X464DV3JXR;
 				INFOPLIST_FILE = Azamor/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

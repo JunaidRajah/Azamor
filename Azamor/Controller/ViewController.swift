@@ -12,11 +12,13 @@ class ViewController: UIViewController {
 
     var player: AVPlayer?
     var aB = audioBrain()
+    var gameLogic = gameBrain()
     
     @IBOutlet weak var startButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        gameLogic.initGame()
         playBackgroundVideo()
         aB.playBackgroundSound("Start")
         // Do any additional setup after loading the view.
@@ -54,6 +56,7 @@ class ViewController: UIViewController {
         if segue.identifier == "goToMenu" {
             let destinationVC = segue.destination as! MainMenuViewController
             destinationVC.aB = aB
+            destinationVC.gameLogic = gameLogic
         }
     }
     

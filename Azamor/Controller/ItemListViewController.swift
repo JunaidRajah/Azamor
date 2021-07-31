@@ -13,6 +13,7 @@ class ItemListViewController: UIViewController {
 
     let realm = try! Realm()
     var aB = audioBrain()
+    var gameLogic = gameBrain()
     
     @IBOutlet weak var Item1Label: UILabel!
     @IBOutlet weak var Item2Label: UILabel!
@@ -35,27 +36,21 @@ class ItemListViewController: UIViewController {
     
     var indexToChange: Int?
     
-    var itemList: Results<Item>?
     var currentCharacter = characterBrain()
     var currentTrack: String?
     
     let charInit = characterBrain()
     
-    var currentStoryTabString = ""
     var isPlayerTurn = false
-    var storyTabToReturn = ""
         
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        let game =  realm.objects(Game.self).first
         currentCharacter.initCharacter()
-        
         initView()
     }
     
     func initView(){
-        switch itemList!.count {
+        switch gameLogic.itemListToSend!.count {
         case 0:
             Item1Label.isHidden = false
             Item1Label.text = "No Available Items"
@@ -63,7 +58,7 @@ class ItemListViewController: UIViewController {
             Item1Label.isHidden = false
             Item1Button.isHidden = false
             
-            Item1Label.text = itemList![0].Name
+            Item1Label.text = gameLogic.itemListToSend![0].Name
         case 2:
             Item1Label.isHidden = false
             Item1Button.isHidden = false
@@ -71,8 +66,8 @@ class ItemListViewController: UIViewController {
             Item2Label.isHidden = false
             Item2Button.isHidden = false
             
-            Item1Label.text = itemList![0].Name
-            Item2Label.text = itemList![1].Name
+            Item1Label.text = gameLogic.itemListToSend![0].Name
+            Item2Label.text = gameLogic.itemListToSend![1].Name
         case 3:
             Item1Label.isHidden = false
             Item1Button.isHidden = false
@@ -83,9 +78,9 @@ class ItemListViewController: UIViewController {
             Item3Label.isHidden = false
             Item3Button.isHidden = false
             
-            Item1Label.text = itemList![0].Name
-            Item2Label.text = itemList![1].Name
-            Item3Label.text = itemList![2].Name
+            Item1Label.text = gameLogic.itemListToSend![0].Name
+            Item2Label.text = gameLogic.itemListToSend![1].Name
+            Item3Label.text = gameLogic.itemListToSend![2].Name
         case 4:
             Item1Label.isHidden = false
             Item1Button.isHidden = false
@@ -99,10 +94,10 @@ class ItemListViewController: UIViewController {
             Item4Label.isHidden = false
             Item4Button.isHidden = false
             
-            Item1Label.text = itemList![0].Name
-            Item2Label.text = itemList![1].Name
-            Item3Label.text = itemList![2].Name
-            Item4Label.text = itemList![3].Name
+            Item1Label.text = gameLogic.itemListToSend![0].Name
+            Item2Label.text = gameLogic.itemListToSend![1].Name
+            Item3Label.text = gameLogic.itemListToSend![2].Name
+            Item4Label.text = gameLogic.itemListToSend![3].Name
         case 5:
             Item1Label.isHidden = false
             Item1Button.isHidden = false
@@ -119,11 +114,11 @@ class ItemListViewController: UIViewController {
             Item5Label.isHidden = false
             Item5Button.isHidden = false
             
-            Item1Label.text = itemList![0].Name
-            Item2Label.text = itemList![1].Name
-            Item3Label.text = itemList![2].Name
-            Item4Label.text = itemList![3].Name
-            Item5Label.text = itemList![4].Name
+            Item1Label.text = gameLogic.itemListToSend![0].Name
+            Item2Label.text = gameLogic.itemListToSend![1].Name
+            Item3Label.text = gameLogic.itemListToSend![2].Name
+            Item4Label.text = gameLogic.itemListToSend![3].Name
+            Item5Label.text = gameLogic.itemListToSend![4].Name
         default:
             Item1Label.isHidden = false
             Item1Button.isHidden = false
@@ -143,12 +138,12 @@ class ItemListViewController: UIViewController {
             Item6Label.isHidden = false
             Item6Button.isHidden = false
             
-            Item1Label.text = itemList![0].Name
-            Item2Label.text = itemList![1].Name
-            Item3Label.text = itemList![2].Name
-            Item4Label.text = itemList![3].Name
-            Item5Label.text = itemList![4].Name
-            Item6Label.text = itemList![5].Name
+            Item1Label.text = gameLogic.itemListToSend![0].Name
+            Item2Label.text = gameLogic.itemListToSend![1].Name
+            Item3Label.text = gameLogic.itemListToSend![2].Name
+            Item4Label.text = gameLogic.itemListToSend![3].Name
+            Item5Label.text = gameLogic.itemListToSend![4].Name
+            Item6Label.text = gameLogic.itemListToSend![5].Name
         }
     }
     
@@ -161,7 +156,7 @@ class ItemListViewController: UIViewController {
         aB.playButtonSound("buttonClicked")
         let index = sender.tag
         print(index)
-        let itemToSave = itemList![index]
+        let itemToSave = gameLogic.itemListToSend![index]
         
         updateItem(item: itemToSave, indexToChange: indexToChange!)
         charInit.initCharacter()
@@ -176,13 +171,12 @@ class ItemListViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "listToInventory" {
             let destinationVC = segue.destination as! InventoryViewController
+            destinationVC.gameLogic = gameLogic
             destinationVC.isFromStory = isFromStory
             destinationVC.isFromMain = isFromMain
             destinationVC.isFromItem = isFromItem
             destinationVC.isFromEncounter = isFromEncounter
-            destinationVC.currentStoryTabString = currentStoryTabString
             destinationVC.isPlayerTurn = isPlayerTurn
-            destinationVC.storyTabToReturn = storyTabToReturn
             destinationVC.currentTrack = currentTrack
             destinationVC.aB = aB
         }

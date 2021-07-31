@@ -13,6 +13,7 @@ class MyCharacterViewController: UIViewController {
     let realm = try! Realm()
     var aB = audioBrain()
     var currentCharacter = characterBrain()
+    var gameLogic = gameBrain()
     
     var currentTrack: String?
     
@@ -65,11 +66,13 @@ class MyCharacterViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "charToMain" {
             let destinationVC = segue.destination as! MainMenuViewController
+            destinationVC.gameLogic = gameLogic
             destinationVC.currentTrack = currentTrack!
             destinationVC.aB = aB
         }
         if segue.identifier == "charToSelect" {
             let destinationVC = segue.destination as! CharacterSelectViewController
+            destinationVC.gameLogic = gameLogic
             destinationVC.currentTrack = currentTrack
             destinationVC.aB = aB
         }

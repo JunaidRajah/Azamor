@@ -13,6 +13,7 @@ class InventoryViewController: UIViewController {
     
     let realm = try! Realm()
     var aB = audioBrain()
+    var gameLogic = gameBrain()
     
     @IBOutlet weak var Weapon1Image: UIImageView!
     @IBOutlet weak var Weapon2Image: UIImageView!
@@ -38,17 +39,12 @@ class InventoryViewController: UIViewController {
     var isFromEncounter = false
     
     var currentCharacter = characterBrain()
-    var itemListToSend: Results<Item>?
     var currentTrack: String?
     
-    var currentStoryTabString = ""
     var isPlayerTurn = true
-    var storyTabToReturn = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        let game =  realm.objects(Game.self).first
         currentCharacter.initCharacter()
         initView()
         // Do any additional setup after loading the view.
@@ -99,17 +95,17 @@ class InventoryViewController: UIViewController {
         indexToChange = sender.tag
         switch sender.tag {
         case 1:
-            itemListToSend = currentCharacter.returnItemList(pred: "isWeapon = true")
+            gameLogic.itemListToSend = currentCharacter.returnItemList(pred: "isWeapon = true")
         case 2:
-            itemListToSend = currentCharacter.returnItemList(pred: "isWeapon = true")
+            gameLogic.itemListToSend = currentCharacter.returnItemList(pred: "isWeapon = true")
         case 3:
-            itemListToSend = currentCharacter.returnItemList(pred: "isArmor= true")
+            gameLogic.itemListToSend = currentCharacter.returnItemList(pred: "isArmor= true")
         case 4:
-            itemListToSend = currentCharacter.returnItemList(pred: "isWearable = true")
+            gameLogic.itemListToSend = currentCharacter.returnItemList(pred: "isWearable = true")
         case 5:
-            itemListToSend = currentCharacter.returnItemList(pred: "isUsable = true")
+            gameLogic.itemListToSend = currentCharacter.returnItemList(pred: "isUsable = true")
         case 6:
-            itemListToSend = currentCharacter.returnItemList(pred: "isUsable = true")
+            gameLogic.itemListToSend = currentCharacter.returnItemList(pred: "isUsable = true")
         default:
             print("error")
         }
@@ -136,31 +132,31 @@ class InventoryViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "inventoryToList" {
             let destinationVC = segue.destination as! ItemListViewController
-            destinationVC.itemList = itemListToSend
+            destinationVC.gameLogic = gameLogic
             destinationVC.isFromMain = isFromMain
             destinationVC.isFromStory = isFromStory
             destinationVC.isFromItem = isFromItem
             destinationVC.isFromEncounter = isFromEncounter
             destinationVC.indexToChange = indexToChange
-            destinationVC.currentStoryTabString = currentStoryTabString
             destinationVC.isPlayerTurn = isPlayerTurn
-            destinationVC.storyTabToReturn = storyTabToReturn
             destinationVC.currentTrack = currentTrack
             destinationVC.aB = aB
         }
         
         if segue.identifier == "inventoryToEncounter" {
             let destinationVC = segue.destination as! EncounterViewController
+            destinationVC.gameLogic = gameLogic
             destinationVC.isReturnedFromInventory = true
-            destinationVC.currentStoryTabString = currentStoryTabString
+            //destinationVC.currentStoryTabString = currentStoryTabString
             destinationVC.isPlayerTurn = isPlayerTurn
-            destinationVC.storyTabToReturn = storyTabToReturn
+            //destinationVC.storyTabToReturn = storyTabToReturn
             destinationVC.currentTrack = currentTrack
             destinationVC.aB = aB
         }
         
         if segue.identifier == "invertoryToStory" {
             let destinationVC = segue.destination as! StoryTabViewController
+            destinationVC.gameLogic = gameLogic
             destinationVC.currentTrack = currentTrack
             destinationVC.aB = aB
         }

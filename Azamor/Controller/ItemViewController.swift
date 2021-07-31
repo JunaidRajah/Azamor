@@ -13,6 +13,7 @@ class ItemViewController: UIViewController {
 
     let realm = try! Realm()
     var aB = audioBrain()
+    var gameLogic = gameBrain()
     
     @IBOutlet weak var ItemRoomDiscription: UILabel!
     @IBOutlet weak var ItemRoomOptionLabel: UILabel!
@@ -20,33 +21,22 @@ class ItemViewController: UIViewController {
     @IBOutlet weak var MoveButton: UIButton!
     @IBOutlet weak var inventoryButton: UIButton!
     
-    var currentGame: Game?
-    var currentStoryTab: StoryTab?
-    var roomItems: List<Item>?
     var currentTrack: String?
     var currentCharacter = characterBrain()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        currentGame = realm.objects(Game.self).first
-        let storyTab = realm.objects(StoryTab.self)
-        let pred = "StoryTabID = '\(String(describing: currentGame!.CurrentStoryTab))'"
-        print(pred)
-        currentStoryTab = storyTab.filter(pred).first
-        print(currentStoryTab?.StoryTabID ?? "error getting correct tab")
+        gameLogic.initGame()
         currentCharacter.initCharacter()
-        roomItems = currentStoryTab!.items
-        
         initView()
         // Do any additional setup after loading the view.
     }
     
     func initView(){
-        ItemRoomDiscription.text = currentStoryTab!.StoryTabDiscription
-        ItemRoomOptionLabel.text = currentStoryTab!.StoryTabMoveDiscription1
+        ItemRoomDiscription.text = gameLogic.getCurrentST().StoryTabDiscription
+        ItemRoomOptionLabel.text = gameLogic.getCurrentST().StoryTabMoveDiscription1
         var itemString = ""
-        for item in roomItems! {
+        for item in gameLogic.getCurrentST().items {
             itemString = itemString + item.Name + "\n"
         }
         ItemsLabel.text = itemString
@@ -56,18 +46,11 @@ class ItemViewController: UIViewController {
     
     @IBAction func moveButtonPressed(_ sender: UIButton) {
         aB.playButtonSound("buttonClicked")
-        for item in roomItems! {
+        for item in gameLogic.getCurrentST().items {
             currentCharacter.addItem(item: item)
         }
         
-        do {
-            let game = realm.objects(Game.self).first!
-            try realm.write {
-                game.setValue(currentStoryTab!.StoryTabMoveID1, forKey: "CurrentStoryTab")
-            }
-        } catch  {
-            print(error)
-        }
+        gameLogic.saveGame(save: gameLogic.getCurrentST().StoryTabMoveID1)
         performSegue(withIdentifier: "itemToStory", sender: self)
     }
     
@@ -79,6 +62,7 @@ class ItemViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "itemToInventory" {
             let destinationVC = segue.destination as! InventoryViewController
+            destinationVC.gameLogic = gameLogic
             destinationVC.isFromItem = true
             destinationVC.currentTrack = currentTrack
             destinationVC.aB = aB
@@ -86,6 +70,7 @@ class ItemViewController: UIViewController {
         
         if segue.identifier == "itemToStory" {
             let destinationVC = segue.destination as! StoryTabViewController
+            destinationVC.gameLogic = gameLogic
             destinationVC.currentTrack = currentTrack
             destinationVC.aB = aB
         }

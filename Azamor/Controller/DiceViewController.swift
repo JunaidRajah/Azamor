@@ -13,6 +13,7 @@ class DiceViewController: UIViewController {
 
     let realm = try! Realm()
     var aB = audioBrain()
+    var gameLogic = gameBrain()
     
     @IBOutlet weak var RollTypeLabel: UILabel!
     @IBOutlet weak var DCLabel: UILabel!
@@ -22,14 +23,7 @@ class DiceViewController: UIViewController {
     @IBOutlet weak var ReturnButton: UIButton!
     
     
-    var currentType: String?
-    var currentDC: Int?
-    var currentMod: Int?
-    var currentRoll = 0
-    var currentAttempts: Int?
-    var currentStoryTab: String?
-    var nextStoryTab: String?
-    var storyTabToReturn: String?
+    
     var currentTrack: String?
     
     override func viewDidLoad() {
@@ -40,34 +34,38 @@ class DiceViewController: UIViewController {
         
         func refreshDiceView(){
             aB.stopVoice()
-            RollTypeLabel.text = "\(currentType ?? "error") Roll"
-            DCLabel.text = "DC To Beat: \(currentDC ?? -1)"
-            AttemptsLabel.text = "You have \(currentAttempts ?? -1) attempts remaining"
-            DiceNumber.text = "\(currentRoll)"
+            RollTypeLabel.text = "\(gameLogic.currentType ?? "error") Roll"
+            DCLabel.text = "DC To Beat: \(gameLogic.currentDC ?? -1)"
+            AttemptsLabel.text = "You have \(gameLogic.currentAttempts ?? -1) attempts remaining"
+            DiceNumber.text = "\(gameLogic.currentRoll)"
         }
         
         @IBAction func rollButtonPressed(_ sender: UIButton) {
             aB.playButtonSound("buttonClicked")
             var roll =  Int.random(in: 1...20)
-            roll = roll + currentMod!
-            currentRoll = roll
+            roll = roll + gameLogic.currentMod!
+            gameLogic.currentRoll = roll
 
-            if roll >= currentDC! {
-                currentAttempts! = currentAttempts! - 1
-                storyTabToReturn = nextStoryTab
+            if roll >= gameLogic.currentDC! {
+                gameLogic.currentAttempts! = gameLogic.currentAttempts! - 1
+                gameLogic.storyTabToReturn = gameLogic.nextStoryTabString!
                 RollButton.isHidden = true
                 ReturnButton.isHidden = false
                 refreshDiceView()
                 AttemptsLabel.text = "You Are Successful!"
+                print("Dice ST to return successful attempt")
+                print(gameLogic.storyTabToReturn!)
             } else {
-                currentAttempts! = currentAttempts! - 1
+                gameLogic.currentAttempts! = gameLogic.currentAttempts! - 1
                 refreshDiceView()
-                if currentAttempts == 0 {
+                if gameLogic.currentAttempts == 0 {
                     RollButton.isHidden = true
                     ReturnButton.isHidden = false
-                    refreshDiceView()
+                    refreshDiceView() as Any
                     AttemptsLabel.text = "You Failed Your Ability Check!"
-                    storyTabToReturn = currentStoryTab
+                    gameLogic.storyTabToReturn = gameLogic.getCurrentST().StoryTabID
+                    print("Dice ST to return failed attempt")
+                    print(gameLogic.storyTabToReturn!)
                 }
             }
             
@@ -76,29 +74,23 @@ class DiceViewController: UIViewController {
         
         @IBAction func returnButtonPressed(_ sender: UIButton) {
             aB.playButtonSound("buttonClicked")
-            do {
-                let game = realm.objects(Game.self).first
-                try realm.write {
-                    game?.setValue(storyTabToReturn, forKey: "CurrentStoryTab")
-                }
-            } catch  {
-                print(error)
-            }
+            gameLogic.saveGame(save: gameLogic.storyTabToReturn!)
             performSegue(withIdentifier: "diceToStory", sender: self)
         }
         
         func resetDice() {
-            currentType = ""
-            currentDC = 0
-            currentMod = 0
-            currentRoll = 0
-            currentAttempts = 0
+            gameLogic.currentType = ""
+            gameLogic.currentDC = 0
+            gameLogic.currentMod = 0
+            gameLogic.currentRoll = 0
+            gameLogic.currentAttempts = 0
 
         }
     
         override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
             if segue.identifier == "diceToStory" {
                 let destinationVC = segue.destination as! StoryTabViewController
+                destinationVC.gameLogic = gameLogic
                 destinationVC.currentTrack = currentTrack
                 destinationVC.aB = aB
             }

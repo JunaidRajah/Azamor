@@ -13,6 +13,7 @@ class EncounterViewController: UIViewController {
     
     let realm = try! Realm()
     var aB = audioBrain()
+    var gameLogic = gameBrain()
     
     @IBOutlet weak var BackgroundImage: UIImageView!
     @IBOutlet weak var PlayerCharacterPortait: UIImageView!
@@ -59,10 +60,7 @@ class EncounterViewController: UIViewController {
     @IBOutlet weak var D20Label: UILabel!
     @IBOutlet weak var ReturnButton: UIButton!
     @IBOutlet weak var ReturnLabel: UILabel!
-    
-    var currentStoryTabString: String?
-    var nextStoryTabString: String?
-    var storyTabToReturn: String?
+
     var currentTrack: String?
     
     var currentStoryTab: StoryTab?
@@ -81,18 +79,10 @@ class EncounterViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        let game = realm.objects(Game.self).first
-        let storyTab = realm.objects(StoryTab.self)
-        let pred = "StoryTabID = '\(String(describing: currentStoryTabString!))'"
-        print(pred)
-        currentStoryTab = storyTab.filter(pred).first
-        print(currentStoryTab?.StoryTabID ?? "error getting correct tab")
-        
         currentCharacter.initCharacter()
-        nextStoryTabString = currentStoryTab?.StoryTabMoveID1
-        currentEnemy = currentStoryTab?.enemies.first
-        EncounterItems = currentStoryTab?.items
+        gameLogic.nextStoryTabString = gameLogic.getCurrentST().StoryTabMoveID1
+        currentEnemy = gameLogic.getCurrentST().enemies.first
+        EncounterItems = gameLogic.getCurrentST().items
         
         if isReturnedFromInventory == false {
             do {
@@ -110,7 +100,7 @@ class EncounterViewController: UIViewController {
         
         addActions()
         initView()
-        initBackgroundMusic()
+        //initBackgroundMusic()
     }
     
     func initView() {
@@ -119,8 +109,8 @@ class EncounterViewController: UIViewController {
             EnemyImage.image = UIImage(named: currentEnemy!.EnemyImageString)
         }
         PlayerCharacterPortait.image = UIImage(named: currentCharacter.returnImgString())
-        BackgroundImage.image = UIImage(named: currentStoryTab!.StoryTabBackgroundImageString)
-        EncounterTitleLabel.text = currentStoryTab?.StoryTabDiscription
+        BackgroundImage.image = UIImage(named: gameLogic.getCurrentST().StoryTabBackgroundImageString)
+        EncounterTitleLabel.text = gameLogic.getCurrentST().StoryTabDiscription
         PlayerHPLabel.text = "HP: \(String(describing: currentCharacter.tempHP()))"
         PlayerArmorLabel.text = "Armor: \(String(describing: currentCharacter.returnAC()))"
         PlayerAttackLabel.text = "Attack: \(String(describing: currentCharacter.returnAttackMod()))"
@@ -253,15 +243,14 @@ class EncounterViewController: UIViewController {
         InventoryButton.isEnabled = true
     }
     
-    func initBackgroundMusic(){
-        let storyBack = currentStoryTab!.StoryTabMusicString
-        if storyBack != currentTrack {
-            aB.stopSoundBack()
-            aB.playBackgroundSound(storyBack)
-            currentTrack = storyBack
-            
-        }
-    }
+//    func initBackgroundMusic(){
+//        let storyBack = gameLogic.getCurrentST().StoryTabMusicString
+//        if storyBack != currentTrack {
+//            aB.stopSoundBack()
+//            aB.playBackgroundSound(storyBack)
+//            currentTrack = storyBack
+//        }
+//    }
     //Switch not working as i expected seperate this is basically the same code 6 times
     
     @IBAction func actionButtonPressed(_ sender: UIButton) {
@@ -433,29 +422,16 @@ class EncounterViewController: UIViewController {
                 D20Label.text = "\(attackRoll)"
                 isPlayerTurn = true
             } else {
-                do {
-                    let game = realm.objects(Game.self).first
-                    try realm.write {
-                        game!.setValue(nextStoryTabString, forKey: "CurrentStoryTab")
-                    }
-                } catch  {
-                    print(error)
-                }
+                gameLogic.saveGame(save: gameLogic.nextStoryTabString!)
                 aB.stopVoice()
-                aB.playVoiceSound(nextStoryTabString!)
+                aB.playVoiceSound(gameLogic.nextStoryTabString!)
                 performSegue(withIdentifier: "encounterToStory", sender: self)
             }
         } else {
             if currentCharacter.tempHP() <= 0 {
                 currentCharacter.resetHP()
-                do {
-                    let game = realm.objects(Game.self).first
-                    try realm.write {
-                        game!.setValue(storyTabToReturn, forKey: "CurrentStoryTab")
-                    }
-                } catch  {
-                    print(error)
-                }
+                gameLogic.storyTabToReturn = gameLogic.getCurrentST().StoryTabID
+                gameLogic.saveGame(save: gameLogic.storyTabToReturn!)
                 performSegue(withIdentifier: "encounterToStory", sender: self)
             } else {
                 
@@ -473,9 +449,9 @@ class EncounterViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "encounterToInventory" {
             let destinationVC = segue.destination as! InventoryViewController
-            destinationVC.currentStoryTabString = currentStoryTabString!
+            destinationVC.gameLogic = gameLogic
             destinationVC.isPlayerTurn = isPlayerTurn!
-            destinationVC.storyTabToReturn = storyTabToReturn!
+            //destinationVC.storyTabToReturn = gameLogic.storyTabToReturn!
             destinationVC.isFromEncounter = true
             destinationVC.currentTrack = currentTrack
             destinationVC.aB = aB
@@ -483,6 +459,7 @@ class EncounterViewController: UIViewController {
         
         if segue.identifier == "encounterToStory" {
             let destinationVC = segue.destination as! StoryTabViewController
+            destinationVC.gameLogic = gameLogic
             destinationVC.currentTrack = currentTrack
             destinationVC.aB = aB
         }

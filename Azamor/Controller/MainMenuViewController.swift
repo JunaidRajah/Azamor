@@ -14,6 +14,7 @@ class MainMenuViewController: UIViewController {
     let realm = try! Realm()
     var player: AVPlayer?
     var aB = audioBrain()
+    var gameLogic = gameBrain()
     var currentTrack = "Start"
     
     @IBOutlet weak var charButton: UIButton!
@@ -21,25 +22,16 @@ class MainMenuViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        gameLogic.initGame()
+        initView()
+    }
+    
+    func initView() {
         playBackgroundVideo()
-            
-        let currentGame = realm.objects(Game.self).first
-        
-        let storyTabs = realm.objects(StoryTab.self)
-        let pred = "StoryTabID = '\(String(describing: currentGame!.CurrentStoryTab))'"
-        
-        var currentStoryTab = storyTabs.filter(pred).first
-        
-        if currentStoryTab!.StoryTabID == "S01a" || currentStoryTab!.StoryTabID == "S01b" || currentStoryTab!.StoryTabID == "S01c" || currentStoryTab!.StoryTabID == "S01d"
-            || currentStoryTab!.StoryTabID == "S01e" || currentStoryTab!.StoryTabID == "S01f" || currentStoryTab!.StoryTabID == "S01g" || currentStoryTab!.StoryTabID == "S01h"
-            || currentStoryTab!.StoryTabID == "S01i" || currentStoryTab!.StoryTabID == "S01j" || currentStoryTab!.StoryTabID == "S01k" || currentStoryTab!.StoryTabID == "S01l"
-            || currentStoryTab!.StoryTabID == "S01m" || currentStoryTab!.StoryTabID == "S01n" || currentStoryTab!.StoryTabID == "S01oE" || currentStoryTab!.StoryTabID == "S01p"
-            || currentStoryTab!.StoryTabID == "S02a" || currentStoryTab!.StoryTabID == "S02b" || currentStoryTab!.StoryTabID == "S02c" {
-            
+        if gameLogic.checkIfStartingCharIsActive() {
             charButton.isEnabled = false
             armButton.isEnabled = false
         }
-        // Do any additional setup after loading the view.
     }
     
     @IBAction func enterAzamorButtonPressed(_ sender: UIButton) {
@@ -87,12 +79,14 @@ class MainMenuViewController: UIViewController {
             let destinationVC = segue.destination as! InventoryViewController
             destinationVC.isFromMain = true
             destinationVC.aB = aB
+            destinationVC.gameLogic = gameLogic
             destinationVC.currentTrack = currentTrack
         }
         
         if segue.identifier == "mainToChar" {
             let destinationVC = segue.destination as! MyCharacterViewController
             destinationVC.aB = aB
+            destinationVC.gameLogic = gameLogic
             destinationVC.isFromMain = true
             destinationVC.currentTrack = currentTrack
         }
@@ -101,6 +95,7 @@ class MainMenuViewController: UIViewController {
             let destinationVC = segue.destination as! StoryTabViewController
             destinationVC.currentTrack = currentTrack
             destinationVC.aB = aB
+            destinationVC.gameLogic = gameLogic
         }
     }
 }
