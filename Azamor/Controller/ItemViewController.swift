@@ -9,8 +9,9 @@ import UIKit
 import RealmSwift
 import AVFoundation
 
-class ItemViewController: UIViewController {
-
+class ItemViewController: UIViewController, Storyboarded {
+    
+    var coordinator: MainCoordinator?
     let realm = try! Realm()
     var aB = audioBrain()
     var gameLogic = gameBrain()
@@ -51,28 +52,11 @@ class ItemViewController: UIViewController {
         }
         
         gameLogic.saveGame(save: gameLogic.getCurrentST().StoryTabMoveID1)
-        performSegue(withIdentifier: "itemToStory", sender: self)
+        coordinator?.itemToStory(vc: self)
     }
     
     @IBAction func inventoryButtonPressed(_ sender: UIButton) {
         aB.playButtonSound("buttonClicked")
-        performSegue(withIdentifier: "itemToInventory", sender: self)
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "itemToInventory" {
-            let destinationVC = segue.destination as! InventoryViewController
-            destinationVC.gameLogic = gameLogic
-            destinationVC.isFromItem = true
-            destinationVC.currentTrack = currentTrack
-            destinationVC.aB = aB
-        }
-        
-        if segue.identifier == "itemToStory" {
-            let destinationVC = segue.destination as! StoryTabViewController
-            destinationVC.gameLogic = gameLogic
-            destinationVC.currentTrack = currentTrack
-            destinationVC.aB = aB
-        }
+        coordinator?.itemToInventory(vc: self)
     }
 }

@@ -9,8 +9,9 @@ import UIKit
 import AVFoundation
 import RealmSwift
 
-class MainMenuViewController: UIViewController {
+class MainMenuViewController: UIViewController, Storyboarded {
 
+    var coordinator: MainCoordinator?
     let realm = try! Realm()
     var player: AVPlayer?
     var aB = audioBrain()
@@ -38,8 +39,7 @@ class MainMenuViewController: UIViewController {
         aB.playButtonSound("buttonClicked")
         let char = characterBrain()
         char.initCharacter()
-        performSegue(withIdentifier: "showStoryTab", sender: self)
-        
+        coordinator?.mainToStory(vc: self)
     }
     
     
@@ -66,36 +66,12 @@ class MainMenuViewController: UIViewController {
     }
     @IBAction func inventoryButtonPressed(_ sender: UIButton) {
         aB.playButtonSound("buttonClicked")
-        performSegue(withIdentifier: "mainToInventory", sender: self)
+        coordinator?.mainToInventory(vc: self)
     }
     
     @IBAction func characterButtonPressed(_ sender: UIButton) {
         aB.playButtonSound("buttonClicked")
-        performSegue(withIdentifier: "mainToChar", sender: self)
+        coordinator?.mainToChar(vc: self)
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "mainToInventory" {
-            let destinationVC = segue.destination as! InventoryViewController
-            destinationVC.isFromMain = true
-            destinationVC.aB = aB
-            destinationVC.gameLogic = gameLogic
-            destinationVC.currentTrack = currentTrack
-        }
-        
-        if segue.identifier == "mainToChar" {
-            let destinationVC = segue.destination as! MyCharacterViewController
-            destinationVC.aB = aB
-            destinationVC.gameLogic = gameLogic
-            destinationVC.isFromMain = true
-            destinationVC.currentTrack = currentTrack
-        }
-        
-        if segue.identifier == "showStoryTab" {
-            let destinationVC = segue.destination as! StoryTabViewController
-            destinationVC.currentTrack = currentTrack
-            destinationVC.aB = aB
-            destinationVC.gameLogic = gameLogic
-        }
-    }
 }

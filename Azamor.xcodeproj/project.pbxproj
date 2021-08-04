@@ -25,7 +25,6 @@
 		A12CBF36268E15D60003BF11 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = A12CBF35268E15D60003BF11 /* Item.swift */; };
 		A12CBF38268E18570003BF11 /* StoryTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = A12CBF37268E18570003BF11 /* StoryTab.swift */; };
 		A18BBB6F26B4764800F71BDE /* StoryTabViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A18BBB6E26B4764800F71BDE /* StoryTabViewModel.swift */; };
-		A18BBB7026B4764800F71BDE /* StoryTabViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A18BBB6E26B4764800F71BDE /* StoryTabViewModel.swift */; };
 		A1A5B34E2694F5E5009410E5 /* DiceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A5B34D2694F5E5009410E5 /* DiceViewController.swift */; };
 		A1A5B350269512C1009410E5 /* EncounterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A5B34F269512C1009410E5 /* EncounterViewController.swift */; };
 		A1A5B3522695145E009410E5 /* ItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A5B3512695145E009410E5 /* ItemViewController.swift */; };
@@ -88,6 +87,9 @@
 		A1A5B3D826985EE6009410E5 /* S02m.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A1A5B3AB26985EE5009410E5 /* S02m.mp3 */; };
 		A1A5B3D926985EE6009410E5 /* S03e.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A1A5B3AC26985EE5009410E5 /* S03e.mp3 */; };
 		A1A5B3DA26985EE6009410E5 /* S03h.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A1A5B3AD26985EE6009410E5 /* S03h.mp3 */; };
+		A1A6246026B9787100F95772 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A6245F26B9787100F95772 /* Coordinator.swift */; };
+		A1A6246326B978E900F95772 /* Storyboarded.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A6246226B978E900F95772 /* Storyboarded.swift */; };
+		A1A6246526B9795300F95772 /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A6246426B9795300F95772 /* MainCoordinator.swift */; };
 		A1B9948F26A10A8D003E6515 /* gameBrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B9948E26A10A8D003E6515 /* gameBrain.swift */; };
 		A1B9949A26A3C12F003E6515 /* S01k.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A1B9949226A3C12E003E6515 /* S01k.mp3 */; };
 		A1B9949B26A3C12F003E6515 /* S01p.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A1B9949326A3C12E003E6515 /* S01p.mp3 */; };
@@ -212,6 +214,9 @@
 		A1A5B3AB26985EE5009410E5 /* S02m.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = S02m.mp3; sourceTree = "<group>"; };
 		A1A5B3AC26985EE5009410E5 /* S03e.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = S03e.mp3; sourceTree = "<group>"; };
 		A1A5B3AD26985EE6009410E5 /* S03h.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = S03h.mp3; sourceTree = "<group>"; };
+		A1A6245F26B9787100F95772 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
+		A1A6246226B978E900F95772 /* Storyboarded.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storyboarded.swift; sourceTree = "<group>"; };
+		A1A6246426B9795300F95772 /* MainCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
 		A1B9948E26A10A8D003E6515 /* gameBrain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gameBrain.swift; sourceTree = "<group>"; };
 		A1B9949226A3C12E003E6515 /* S01k.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = S01k.mp3; sourceTree = "<group>"; };
 		A1B9949326A3C12E003E6515 /* S01p.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = S01p.mp3; sourceTree = "<group>"; };
@@ -302,9 +307,9 @@
 		A12CBEF8268C82C70003BF11 /* Azamor */ = {
 			isa = PBXGroup;
 			children = (
-				A18BBB6D26B475D600F71BDE /* View Models */,
 				A1A5B36526982300009410E5 /* Sounds */,
 				A12CBF2E268C92F70003BF11 /* Models */,
+				A18BBB6D26B475D600F71BDE /* View Models */,
 				A12CBF2D268C92D60003BF11 /* View */,
 				A12CBF2C268C92C20003BF11 /* Controller */,
 				A12CBF02268C82C70003BF11 /* Assets.xcassets */,
@@ -314,6 +319,7 @@
 				A12CBF29268C83120003BF11 /* GameBack.mp4 */,
 				A12CBF31268CA31A0003BF11 /* MainMenuBack.mp4 */,
 				A1A5B3632697D4F7009410E5 /* azamor.realm */,
+				A1A6246126B9787D00F95772 /* Coordinator */,
 			);
 			path = Azamor;
 			sourceTree = "<group>";
@@ -474,6 +480,16 @@
 				A1A5B36B269824B9009410E5 /* buttonClicked.wav */,
 			);
 			path = Other;
+			sourceTree = "<group>";
+		};
+		A1A6246126B9787D00F95772 /* Coordinator */ = {
+			isa = PBXGroup;
+			children = (
+				A1A6245F26B9787100F95772 /* Coordinator.swift */,
+				A1A6246226B978E900F95772 /* Storyboarded.swift */,
+				A1A6246426B9795300F95772 /* MainCoordinator.swift */,
+			);
+			path = Coordinator;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -778,11 +794,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				A1B9948F26A10A8D003E6515 /* gameBrain.swift in Sources */,
+				A1A6246526B9795300F95772 /* MainCoordinator.swift in Sources */,
 				A12CBF30268C94910003BF11 /* MainMenuViewController.swift in Sources */,
 				A1A5B37226983FE0009410E5 /* audioBrain.swift in Sources */,
 				A1BF36C12693BB5E004E1BD7 /* Game.swift in Sources */,
 				A1A5B36026974C0E009410E5 /* ItemListViewController.swift in Sources */,
 				A1A5B35426951A51009410E5 /* CharacterSelectViewController.swift in Sources */,
+				A1A6246026B9787100F95772 /* Coordinator.swift in Sources */,
 				A1A5B36226976F9E009410E5 /* characterBrain.swift in Sources */,
 				A12CBEFE268C82C70003BF11 /* ViewController.swift in Sources */,
 				A1A5B3522695145E009410E5 /* ItemViewController.swift in Sources */,
@@ -790,6 +808,7 @@
 				A1A5B35626951A5F009410E5 /* MyCharacterViewController.swift in Sources */,
 				A12CBF34268E13450003BF11 /* Character.swift in Sources */,
 				A12CBF38268E18570003BF11 /* StoryTab.swift in Sources */,
+				A1A6246326B978E900F95772 /* Storyboarded.swift in Sources */,
 				A1A5B34E2694F5E5009410E5 /* DiceViewController.swift in Sources */,
 				A1A5B350269512C1009410E5 /* EncounterViewController.swift in Sources */,
 				A12CBEFA268C82C70003BF11 /* AppDelegate.swift in Sources */,
@@ -805,7 +824,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A18BBB7026B4764800F71BDE /* StoryTabViewModel.swift in Sources */,
 				A12CBF11268C82C80003BF11 /* AzamorTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -9,8 +9,9 @@ import UIKit
 import RealmSwift
 import AVFoundation
 
-class DiceViewController: UIViewController {
-
+class DiceViewController: UIViewController, Storyboarded {
+    
+    var coordinator: MainCoordinator?
     let realm = try! Realm()
     var aB = audioBrain()
     var gameLogic = gameBrain()
@@ -61,7 +62,7 @@ class DiceViewController: UIViewController {
                 if gameLogic.currentAttempts == 0 {
                     RollButton.isHidden = true
                     ReturnButton.isHidden = false
-                    refreshDiceView() as Any
+                    refreshDiceView()
                     AttemptsLabel.text = "You Failed Your Ability Check!"
                     gameLogic.storyTabToReturn = gameLogic.getCurrentST().StoryTabID
                     print("Dice ST to return failed attempt")
@@ -75,7 +76,7 @@ class DiceViewController: UIViewController {
         @IBAction func returnButtonPressed(_ sender: UIButton) {
             aB.playButtonSound("buttonClicked")
             gameLogic.saveGame(save: gameLogic.storyTabToReturn!)
-            performSegue(withIdentifier: "diceToStory", sender: self)
+            coordinator?.diceToStory(vc: self)
         }
         
         func resetDice() {
@@ -87,13 +88,6 @@ class DiceViewController: UIViewController {
 
         }
     
-        override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-            if segue.identifier == "diceToStory" {
-                let destinationVC = segue.destination as! StoryTabViewController
-                destinationVC.gameLogic = gameLogic
-                destinationVC.currentTrack = currentTrack
-                destinationVC.aB = aB
-            }
-        }
+        
     
 }

@@ -9,8 +9,9 @@ import UIKit
 import RealmSwift
 import AVFoundation
 
-class InventoryViewController: UIViewController {
+class InventoryViewController: UIViewController, Storyboarded {
     
+    var coordinator: MainCoordinator?
     let realm = try! Realm()
     var aB = audioBrain()
     var gameLogic = gameBrain()
@@ -109,58 +110,23 @@ class InventoryViewController: UIViewController {
         default:
             print("error")
         }
-        performSegue(withIdentifier: "inventoryToList", sender: self)
+        coordinator?.inventoryToList(vc: self)
     }
     
     @IBAction func backButtonPressed(_ sender: UIButton) {
         aB.playButtonSound("buttonClicked")
         if isFromMain == true {
-            performSegue(withIdentifier: "inventoryToMain", sender: self)
+            coordinator?.inventoryToMain(vc: self)
         }
         else if isFromStory == true {
-            performSegue(withIdentifier: "invertoryToStory", sender: self)
+            coordinator?.inventoryToStory(vc: self)
         }
         else if isFromItem == true {
-            performSegue(withIdentifier: "inventoryToItem", sender: self)
+            coordinator?.inventoryToItem(vc: self)
         }
         else if isFromEncounter == true {
-            performSegue(withIdentifier: "inventoryToEncounter", sender: self)
+            coordinator?.inventoryToEncounter(vc: self)
         }
         
     }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "inventoryToList" {
-            let destinationVC = segue.destination as! ItemListViewController
-            destinationVC.gameLogic = gameLogic
-            destinationVC.isFromMain = isFromMain
-            destinationVC.isFromStory = isFromStory
-            destinationVC.isFromItem = isFromItem
-            destinationVC.isFromEncounter = isFromEncounter
-            destinationVC.indexToChange = indexToChange
-            destinationVC.isPlayerTurn = isPlayerTurn
-            destinationVC.currentTrack = currentTrack
-            destinationVC.aB = aB
-        }
-        
-        if segue.identifier == "inventoryToEncounter" {
-            let destinationVC = segue.destination as! EncounterViewController
-            destinationVC.gameLogic = gameLogic
-            destinationVC.isReturnedFromInventory = true
-            //destinationVC.currentStoryTabString = currentStoryTabString
-            destinationVC.isPlayerTurn = isPlayerTurn
-            //destinationVC.storyTabToReturn = storyTabToReturn
-            destinationVC.currentTrack = currentTrack
-            destinationVC.aB = aB
-        }
-        
-        if segue.identifier == "invertoryToStory" {
-            let destinationVC = segue.destination as! StoryTabViewController
-            destinationVC.gameLogic = gameLogic
-            destinationVC.currentTrack = currentTrack
-            destinationVC.aB = aB
-        }
-    }
-
-
 }

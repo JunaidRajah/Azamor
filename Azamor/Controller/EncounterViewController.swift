@@ -9,8 +9,9 @@ import UIKit
 import RealmSwift
 import AVFoundation
 
-class EncounterViewController: UIViewController {
+class EncounterViewController: UIViewController, Storyboarded {
     
+    var coordinator: MainCoordinator?
     let realm = try! Realm()
     var aB = audioBrain()
     var gameLogic = gameBrain()
@@ -404,7 +405,7 @@ class EncounterViewController: UIViewController {
     
     @IBAction func inventoryButtonPressed(_ sender: UIButton) {
         aB.playButtonSound("buttonClicked")
-        performSegue(withIdentifier: "encounterToInventory", sender: self)
+        coordinator?.encounterToInventory(vc: self)
     }
     
     func returnFunction() {
@@ -425,14 +426,14 @@ class EncounterViewController: UIViewController {
                 gameLogic.saveGame(save: gameLogic.nextStoryTabString!)
                 aB.stopVoice()
                 aB.playVoiceSound(gameLogic.nextStoryTabString!)
-                performSegue(withIdentifier: "encounterToStory", sender: self)
+                coordinator?.encounterToStory(vc: self)
             }
         } else {
             if currentCharacter.tempHP() <= 0 {
                 currentCharacter.resetHP()
                 gameLogic.storyTabToReturn = gameLogic.getCurrentST().StoryTabID
                 gameLogic.saveGame(save: gameLogic.storyTabToReturn!)
-                performSegue(withIdentifier: "encounterToStory", sender: self)
+                coordinator?.encounterToStory(vc: self)
             } else {
                 
             }
@@ -444,25 +445,6 @@ class EncounterViewController: UIViewController {
     @IBAction func returnButtonPressed(_ sender: Any) {
         aB.playButtonSound("buttonClicked")
         returnFunction()
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "encounterToInventory" {
-            let destinationVC = segue.destination as! InventoryViewController
-            destinationVC.gameLogic = gameLogic
-            destinationVC.isPlayerTurn = isPlayerTurn!
-            //destinationVC.storyTabToReturn = gameLogic.storyTabToReturn!
-            destinationVC.isFromEncounter = true
-            destinationVC.currentTrack = currentTrack
-            destinationVC.aB = aB
-        }
-        
-        if segue.identifier == "encounterToStory" {
-            let destinationVC = segue.destination as! StoryTabViewController
-            destinationVC.gameLogic = gameLogic
-            destinationVC.currentTrack = currentTrack
-            destinationVC.aB = aB
-        }
     }
     
 }

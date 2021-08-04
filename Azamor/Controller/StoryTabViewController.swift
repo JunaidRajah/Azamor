@@ -10,8 +10,9 @@ import RealmSwift
 import CLTypingLabel
 import AVFoundation
 
-class StoryTabViewController: UIViewController {
+class StoryTabViewController: UIViewController, Storyboarded {
     
+    var coordinator: MainCoordinator?
     let realm = try! Realm()
     var aB = audioBrain()
     var gameLogic = gameBrain()
@@ -148,14 +149,13 @@ class StoryTabViewController: UIViewController {
         aB.stopVoice()
         
         if (gameLogic.optionButtonAction(button: sender.tag)) {
-            
-            performSegue(withIdentifier: "storyToDice", sender: self)
+            coordinator?.storyToDice(vc: self)
         } else {
             checkNextRoom(Story: gameLogic.nextStoryTab!)
         }
         
         if gameLogic.currentStoryTabString == "S02d" {
-            performSegue(withIdentifier: "storyToSelect", sender: self)
+            coordinator?.storyToSelect(vc: self)
         }
         initBackgroundMusic()
         initView()
@@ -165,64 +165,20 @@ class StoryTabViewController: UIViewController {
     
     func checkNextRoom(Story: StoryTab){
         if Story.isEncounter == true {
-            performSegue(withIdentifier: "storyToEncounter", sender: self)
+            coordinator?.storyToEncounter(vc: self)
         }
         if Story.isItemRoom == true {
-            performSegue(withIdentifier: "storyToItems", sender: self)
+            coordinator?.storyToItems(vc: self)
         }
     }
     
     func checkFromRoom(Story: StoryTab){
         gameLogic.checkFromRoom(Story: Story)
         if Story.isEncounter == true {
-            performSegue(withIdentifier: "storyToEncounter", sender: self)
+            coordinator?.storyToEncounter(vc: self)
         }
         if Story.isItemRoom == true {
-            performSegue(withIdentifier: "storyToItems", sender: self)
-        }
-    }
-    
-
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "storyToDice" {
-            let destinationVC = segue.destination as! DiceViewController
-            destinationVC.gameLogic = gameLogic
-            destinationVC.currentTrack = currentTrack
-
-            destinationVC.aB = aB
-        }
-        
-        if segue.identifier == "storyToEncounter" {
-            let destinationVC = segue.destination as! EncounterViewController
-            destinationVC.gameLogic = gameLogic
-            //destinationVC.currentStoryTabString = gameLogic.nextStoryTabString!
-            destinationVC.isPlayerTurn = true
-            //destinationVC.storyTabToReturn = gameLogic.getCurrentST().StoryTabID
-            destinationVC.currentTrack = currentTrack
-            destinationVC.aB = aB
-        }
-        
-        if segue.identifier == "storyToInventory" {
-            let destinationVC = segue.destination as! InventoryViewController
-            destinationVC.gameLogic = gameLogic
-            destinationVC.isFromStory = true
-            destinationVC.currentTrack = currentTrack
-            destinationVC.aB = aB
-        }
-        
-        if segue.identifier == "storyToSelect" {
-            let destinationVC = segue.destination as! CharacterSelectViewController
-            destinationVC.gameLogic = gameLogic
-            destinationVC.currentTrack = currentTrack
-            destinationVC.aB = aB
-        }
-        
-        if segue.identifier == "storyToMain" {
-            let destinationVC = segue.destination as! MainMenuViewController
-            destinationVC.gameLogic = gameLogic
-            destinationVC.currentTrack = currentTrack!
-            destinationVC.aB = aB
+            coordinator?.storyToItems(vc: self)
         }
     }
     
@@ -230,7 +186,7 @@ class StoryTabViewController: UIViewController {
         aB.playButtonSound("buttonClicked")
         aB.stopVoice()
         gameLogic.saveCurrentGame()
-        performSegue(withIdentifier: "storyToInventory", sender: self)
+        coordinator?.storyToInventory(vc: self)
         
     }
     
@@ -238,7 +194,7 @@ class StoryTabViewController: UIViewController {
         aB.playButtonSound("buttonClicked")
         aB.stopVoice()
         gameLogic.saveCurrentGame()
-        performSegue(withIdentifier: "storyToMain", sender: self)
+        coordinator?.storyToMain(vc: self)
         
     }
     

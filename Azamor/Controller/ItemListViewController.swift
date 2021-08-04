@@ -9,8 +9,9 @@ import UIKit
 import RealmSwift
 import AVFoundation
 
-class ItemListViewController: UIViewController {
-
+class ItemListViewController: UIViewController, Storyboarded {
+    
+    var coordinator: MainCoordinator?
     let realm = try! Realm()
     var aB = audioBrain()
     var gameLogic = gameBrain()
@@ -160,26 +161,11 @@ class ItemListViewController: UIViewController {
         
         updateItem(item: itemToSave, indexToChange: indexToChange!)
         charInit.initCharacter()
-        performSegue(withIdentifier: "listToInventory", sender: self)
+        coordinator?.listToInventory(vc: self)
     }
     
     @IBAction func returnButtonPressed(_ sender: Any) {
         aB.playButtonSound("buttonClicked")
-        performSegue(withIdentifier: "listToInventory", sender: self)
+        coordinator?.listToInventory(vc: self)
     }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "listToInventory" {
-            let destinationVC = segue.destination as! InventoryViewController
-            destinationVC.gameLogic = gameLogic
-            destinationVC.isFromStory = isFromStory
-            destinationVC.isFromMain = isFromMain
-            destinationVC.isFromItem = isFromItem
-            destinationVC.isFromEncounter = isFromEncounter
-            destinationVC.isPlayerTurn = isPlayerTurn
-            destinationVC.currentTrack = currentTrack
-            destinationVC.aB = aB
-        }
-    }
-
 }

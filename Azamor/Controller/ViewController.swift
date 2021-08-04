@@ -8,8 +8,9 @@
 import UIKit
 import AVFoundation
 
-class ViewController: UIViewController {
-
+class ViewController: UIViewController, Storyboarded {
+    
+    var coordinator: MainCoordinator?
     var player: AVPlayer?
     var aB = audioBrain()
     var gameLogic = gameBrain()
@@ -49,16 +50,9 @@ class ViewController: UIViewController {
 
     
     @IBAction func startButtonPressed(_ sender: UIButton) {
-        performSegue(withIdentifier: "goToMenu", sender: self)
+        coordinator?.gameStartButton(vc: self)
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "goToMenu" {
-            let destinationVC = segue.destination as! MainMenuViewController
-            destinationVC.aB = aB
-            destinationVC.gameLogic = gameLogic
-        }
-    }
     
 }
 

@@ -8,8 +8,9 @@
 import UIKit
 import RealmSwift
 
-class MyCharacterViewController: UIViewController {
+class MyCharacterViewController: UIViewController, Storyboarded {
     
+    var coordinator: MainCoordinator?
     let realm = try! Realm()
     var aB = audioBrain()
     var currentCharacter = characterBrain()
@@ -57,26 +58,9 @@ class MyCharacterViewController: UIViewController {
     
     @IBAction func backButtonPressed(_ sender: UIButton) {
         if isFromMain == true {
-            performSegue(withIdentifier: "charToMain", sender: self)
+            coordinator?.charToMain(vc: self)
         } else {
-            performSegue(withIdentifier: "charToSelect", sender: self)
+            coordinator?.charToSelect(vc: self)
         }
     }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "charToMain" {
-            let destinationVC = segue.destination as! MainMenuViewController
-            destinationVC.gameLogic = gameLogic
-            destinationVC.currentTrack = currentTrack!
-            destinationVC.aB = aB
-        }
-        if segue.identifier == "charToSelect" {
-            let destinationVC = segue.destination as! CharacterSelectViewController
-            destinationVC.gameLogic = gameLogic
-            destinationVC.currentTrack = currentTrack
-            destinationVC.aB = aB
-        }
-    }
-    
-
 }
