@@ -402,8 +402,8 @@
 		A18BBB6D26B475D600F71BDE /* View Models */ = {
 			isa = PBXGroup;
 			children = (
-				A18BBB6E26B4764800F71BDE /* StoryTabViewModel.swift */,
 				A1A6246626BB019100F95772 /* MainMenuViewModel.swift */,
+				A18BBB6E26B4764800F71BDE /* StoryTabViewModel.swift */,
 				A1A6246826BB01A200F95772 /* DiceViewModel.swift */,
 				A1A6246A26BB01E300F95772 /* EncounterViewModel.swift */,
 				A1A6246C26BB022500F95772 /* ItemViewModel.swift */,

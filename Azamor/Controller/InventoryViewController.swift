@@ -13,8 +13,9 @@ class InventoryViewController: UIViewController, Storyboarded {
     
     var coordinator: MainCoordinator?
     let realm = try! Realm()
-    var aB = audioBrain()
-    var gameLogic = gameBrain()
+    var aB = audioBrain.audioInstance
+    var gameLogic = gameBrain.gameInstance
+    var currentCharacter = characterBrain.characterInstance
     
     @IBOutlet weak var Weapon1Image: UIImageView!
     @IBOutlet weak var Weapon2Image: UIImageView!
@@ -38,8 +39,6 @@ class InventoryViewController: UIViewController, Storyboarded {
     var isFromStory = false
     var isFromItem = false
     var isFromEncounter = false
-    
-    var currentCharacter = characterBrain()
     var currentTrack: String?
     
     var isPlayerTurn = true

@@ -10,6 +10,7 @@ import RealmSwift
 
 class characterBrain {
     
+    static let characterInstance = characterBrain()
     let realm = try! Realm()
     var currentCharacter: PlayerCharacter?
     

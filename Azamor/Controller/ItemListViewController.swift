@@ -13,8 +13,9 @@ class ItemListViewController: UIViewController, Storyboarded {
     
     var coordinator: MainCoordinator?
     let realm = try! Realm()
-    var aB = audioBrain()
-    var gameLogic = gameBrain()
+    var aB = audioBrain.audioInstance
+    var gameLogic = gameBrain.gameInstance
+    var currentCharacter = characterBrain.characterInstance
     
     @IBOutlet weak var Item1Label: UILabel!
     @IBOutlet weak var Item2Label: UILabel!
@@ -37,7 +38,6 @@ class ItemListViewController: UIViewController, Storyboarded {
     
     var indexToChange: Int?
     
-    var currentCharacter = characterBrain()
     var currentTrack: String?
     
     let charInit = characterBrain()

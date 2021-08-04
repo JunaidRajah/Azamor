@@ -13,8 +13,9 @@ class ItemViewController: UIViewController, Storyboarded {
     
     var coordinator: MainCoordinator?
     let realm = try! Realm()
-    var aB = audioBrain()
-    var gameLogic = gameBrain()
+    var aB = audioBrain.audioInstance
+    var gameLogic = gameBrain.gameInstance
+    var currentCharacter = characterBrain.characterInstance
     
     @IBOutlet weak var ItemRoomDiscription: UILabel!
     @IBOutlet weak var ItemRoomOptionLabel: UILabel!
@@ -23,7 +24,6 @@ class ItemViewController: UIViewController, Storyboarded {
     @IBOutlet weak var inventoryButton: UIButton!
     
     var currentTrack: String?
-    var currentCharacter = characterBrain()
     
     override func viewDidLoad() {
         super.viewDidLoad()

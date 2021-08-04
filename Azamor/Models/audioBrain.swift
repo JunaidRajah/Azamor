@@ -10,6 +10,7 @@ import RealmSwift
 import AVFoundation
 
 class audioBrain {
+    static let audioInstance = audioBrain()
     var audioPlayerBack: AVAudioPlayer?
     var audioPlayerButton: AVAudioPlayer?
     var audioPlayerVoice: AVAudioPlayer?

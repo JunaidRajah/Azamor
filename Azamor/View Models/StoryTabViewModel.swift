@@ -10,6 +10,8 @@
 //
 //class StoryTabViewModel {
 //
+//    let realm = try! Realm()
+//    var aB = audioBrain()
 //    var gameLogic = gameBrain()
 //    var currentCharacter = characterBrain()
 //

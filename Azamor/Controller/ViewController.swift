@@ -12,8 +12,8 @@ class ViewController: UIViewController, Storyboarded {
     
     var coordinator: MainCoordinator?
     var player: AVPlayer?
-    var aB = audioBrain()
-    var gameLogic = gameBrain()
+    var aB = audioBrain.audioInstance
+    var gameLogic = gameBrain.gameInstance
     
     @IBOutlet weak var startButton: UIButton!
     

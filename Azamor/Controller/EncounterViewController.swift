@@ -13,8 +13,9 @@ class EncounterViewController: UIViewController, Storyboarded {
     
     var coordinator: MainCoordinator?
     let realm = try! Realm()
-    var aB = audioBrain()
-    var gameLogic = gameBrain()
+    var aB = audioBrain.audioInstance
+    var gameLogic = gameBrain.gameInstance
+    var currentCharacter = characterBrain.characterInstance
     
     @IBOutlet weak var BackgroundImage: UIImageView!
     @IBOutlet weak var PlayerCharacterPortait: UIImageView!
@@ -65,7 +66,6 @@ class EncounterViewController: UIViewController, Storyboarded {
     var currentTrack: String?
     
     var currentStoryTab: StoryTab?
-    var currentCharacter = characterBrain()
     var currentEnemy: Enemy?
     var EncounterItems: List<Item>?
     var action1: Action?

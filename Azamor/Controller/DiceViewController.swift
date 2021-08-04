@@ -13,8 +13,8 @@ class DiceViewController: UIViewController, Storyboarded {
     
     var coordinator: MainCoordinator?
     let realm = try! Realm()
-    var aB = audioBrain()
-    var gameLogic = gameBrain()
+    var aB = audioBrain.audioInstance
+    var gameLogic = gameBrain.gameInstance
     
     @IBOutlet weak var RollTypeLabel: UILabel!
     @IBOutlet weak var DCLabel: UILabel!

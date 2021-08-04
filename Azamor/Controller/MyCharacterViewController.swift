@@ -12,9 +12,9 @@ class MyCharacterViewController: UIViewController, Storyboarded {
     
     var coordinator: MainCoordinator?
     let realm = try! Realm()
-    var aB = audioBrain()
-    var currentCharacter = characterBrain()
-    var gameLogic = gameBrain()
+    var aB = audioBrain.audioInstance
+    var gameLogic = gameBrain.gameInstance
+    var currentCharacter = characterBrain.characterInstance
     
     var currentTrack: String?
     

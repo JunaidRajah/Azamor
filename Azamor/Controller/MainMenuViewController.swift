@@ -14,8 +14,8 @@ class MainMenuViewController: UIViewController, Storyboarded {
     var coordinator: MainCoordinator?
     let realm = try! Realm()
     var player: AVPlayer?
-    var aB = audioBrain()
-    var gameLogic = gameBrain()
+    var aB = audioBrain.audioInstance
+    var gameLogic = gameBrain.gameInstance
     var currentTrack = "Start"
     
     @IBOutlet weak var charButton: UIButton!

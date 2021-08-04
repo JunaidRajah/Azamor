@@ -10,6 +10,7 @@ import RealmSwift
 
 class gameBrain {
     //still has to be implemented
+    static let gameInstance = gameBrain()
     let realm = try! Realm()
     
     var currentGame: Game?
@@ -38,7 +39,7 @@ class gameBrain {
     var action5: Action?
     var action6: Action?
     
-    var currentCharacter = characterBrain()
+    var currentCharacter = characterBrain.characterInstance
     
     var roomItems: List<Item>?
     
