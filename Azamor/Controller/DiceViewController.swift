@@ -12,9 +12,7 @@ import AVFoundation
 class DiceViewController: UIViewController, Storyboarded {
     
     var coordinator: MainCoordinator?
-    let realm = try! Realm()
-    var aB = audioBrain.audioInstance
-    var gameLogic = gameBrain.gameInstance
+    var diceViewModel = DiceViewModel()
     
     @IBOutlet weak var RollTypeLabel: UILabel!
     @IBOutlet weak var DCLabel: UILabel!
@@ -23,71 +21,46 @@ class DiceViewController: UIViewController, Storyboarded {
     @IBOutlet weak var RollButton: UIButton!
     @IBOutlet weak var ReturnButton: UIButton!
     
-    
-    
-    var currentTrack: String?
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         refreshDiceView()
         // Do any additional setup after loading the view.
     }
         
-        func refreshDiceView(){
-            aB.stopVoice()
-            RollTypeLabel.text = "\(gameLogic.currentType ?? "error") Roll"
-            DCLabel.text = "DC To Beat: \(gameLogic.currentDC ?? -1)"
-            AttemptsLabel.text = "You have \(gameLogic.currentAttempts ?? -1) attempts remaining"
-            DiceNumber.text = "\(gameLogic.currentRoll)"
-        }
-        
-        @IBAction func rollButtonPressed(_ sender: UIButton) {
-            aB.playButtonSound("buttonClicked")
-            var roll =  Int.random(in: 1...20)
-            roll = roll + gameLogic.currentMod!
-            gameLogic.currentRoll = roll
+    func refreshDiceView(){
+        diceViewModel.refreshDiceView()
+        RollTypeLabel.text = diceViewModel.RollTypeLabelText
+        DCLabel.text = diceViewModel.DCLabelText
+        AttemptsLabel.text = diceViewModel.AttemptsLabelText
+        DiceNumber.text = diceViewModel.DiceNumberText
+    }
+    
+    @IBAction func rollButtonPressed(_ sender: UIButton) {
+        diceViewModel.rollButtonPressed()
 
-            if roll >= gameLogic.currentDC! {
-                gameLogic.currentAttempts! = gameLogic.currentAttempts! - 1
-                gameLogic.storyTabToReturn = gameLogic.nextStoryTabString!
+        if diceViewModel.checkRoll(){
+            diceViewModel.didWinRoll()
+            RollButton.isHidden = true
+            ReturnButton.isHidden = false
+            refreshDiceView()
+            AttemptsLabel.text = "You Are Successful!"
+        } else {
+            diceViewModel.didLoseRoll()
+            refreshDiceView()
+            if diceViewModel.checkCurrentAttempts() {
                 RollButton.isHidden = true
                 ReturnButton.isHidden = false
-                refreshDiceView()
-                AttemptsLabel.text = "You Are Successful!"
-                print("Dice ST to return successful attempt")
-                print(gameLogic.storyTabToReturn!)
-            } else {
-                gameLogic.currentAttempts! = gameLogic.currentAttempts! - 1
-                refreshDiceView()
-                if gameLogic.currentAttempts == 0 {
-                    RollButton.isHidden = true
-                    ReturnButton.isHidden = false
-                    refreshDiceView()
-                    AttemptsLabel.text = "You Failed Your Ability Check!"
-                    gameLogic.storyTabToReturn = gameLogic.getCurrentST().StoryTabID
-                    print("Dice ST to return failed attempt")
-                    print(gameLogic.storyTabToReturn!)
-                }
+                
+                AttemptsLabel.text = "You Failed Your Ability Check!"
+                diceViewModel.ranOutOfDiceAttempts()
             }
-            
-            
         }
         
-        @IBAction func returnButtonPressed(_ sender: UIButton) {
-            aB.playButtonSound("buttonClicked")
-            gameLogic.saveGame(save: gameLogic.storyTabToReturn!)
-            coordinator?.diceToStory(vc: self)
-        }
         
-        func resetDice() {
-            gameLogic.currentType = ""
-            gameLogic.currentDC = 0
-            gameLogic.currentMod = 0
-            gameLogic.currentRoll = 0
-            gameLogic.currentAttempts = 0
-
-        }
+    }
     
-        
-    
+    @IBAction func returnButtonPressed(_ sender: UIButton) {
+        diceViewModel.returnButtonPressed()
+        coordinator?.diceToStory(vc: self)
+    }
 }
