@@ -13,12 +13,7 @@ import AVFoundation
 class StoryTabViewController: UIViewController, Storyboarded {
     
     var coordinator: MainCoordinator?
-    let realm = try! Realm()
-    var aB = audioBrain.audioInstance
-    var gameLogic = gameBrain.gameInstance
-    var currentCharacter = characterBrain.characterInstance
-    
-    var currentTrack: String?
+    var storyTabViewModel = StoryTabViewModel()
 
     @IBOutlet weak var StoryTabTitleLabel: UILabel!
     @IBOutlet weak var StoryTabDiscriptionLabel: CLTypingLabel!
@@ -51,72 +46,70 @@ class StoryTabViewController: UIViewController, Storyboarded {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        gameLogic.initGame()
-        currentCharacter.initCharacter()
         initView()
-        initBackgroundMusic()
+        storyTabViewModel.initBackgroundMusic()
         // Do any additional setup after loading the view.
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        checkFromRoom(Story: gameLogic.getCurrentST())
+        checkFromRoom()
     }
     
     func initView(){
         
-        if gameLogic.checkIfStartingCharIsActive() {
+        if storyTabViewModel.checkIfStartingCharIsActive() {
             inventoryButton.isHidden = true
         } else {
             inventoryButton.isHidden = false
         }
         
-        aB.playVoiceSound(gameLogic.getCurrentST().StoryTabID)
+        storyTabViewModel.playVoiceSound()
         
-        print(gameLogic.currentStoryTabString ?? "error getting correct tab")
-        StoryTabTitleLabel.text = gameLogic.getCurrentST().StoryTabChapterName
+        print(storyTabViewModel.currentStoryTabString ?? "error getting correct tab")
+        StoryTabTitleLabel.text = storyTabViewModel.StoryTabChapterName
         StoryTabDiscriptionLabel.charInterval = 0.06
-        StoryTabDiscriptionLabel.text = gameLogic.getCurrentST().StoryTabDiscription
-        backgroundImage.image = UIImage(named: gameLogic.getCurrentST().StoryTabBackgroundImageString)
+        StoryTabDiscriptionLabel.text = storyTabViewModel.StoryTabDiscription
+        backgroundImage.image = UIImage(named: storyTabViewModel.StoryTabBackgroundImageString!)
         
-        if (gameLogic.getCurrentST().StoryTabMoveActive1 == true) {
+        if (storyTabViewModel.StoryTabMoveActive1 == true) {
             showUI(OptionBtn: Option1Btn, OptionImage: OptionImage1, OptionLabel: OptionLabel1)
-            OptionLabel1.text = gameLogic.getCurrentST().StoryTabMoveDiscription1
+            OptionLabel1.text = storyTabViewModel.StoryTabMoveDiscription1
 
         } else {
             hideUI(OptionBtn: Option1Btn, OptionImage: OptionImage1, OptionLabel: OptionLabel1)
         }
         
-        if (gameLogic.getCurrentST().StoryTabMoveActive2 == true) {
+        if (storyTabViewModel.StoryTabMoveActive2 == true) {
             showUI(OptionBtn: Option2Btn, OptionImage: OptionImage2, OptionLabel: OptionLabel2)
-            OptionLabel2.text = gameLogic.getCurrentST().StoryTabMoveDiscription2
+            OptionLabel2.text = storyTabViewModel.StoryTabMoveDiscription2
         } else {
             hideUI(OptionBtn: Option2Btn, OptionImage: OptionImage2, OptionLabel: OptionLabel2)
         }
         
-        if (gameLogic.getCurrentST().StoryTabMoveActive3 == true) {
+        if (storyTabViewModel.StoryTabMoveActive3 == true) {
             showUI(OptionBtn: Option3Btn, OptionImage: OptionImage3, OptionLabel: OptionLabel3)
-            OptionLabel3.text = gameLogic.getCurrentST().StoryTabMoveDiscription3
+            OptionLabel3.text = storyTabViewModel.StoryTabMoveDiscription3
         } else {
             hideUI(OptionBtn: Option3Btn, OptionImage: OptionImage3, OptionLabel: OptionLabel3)
         }
         
-        if (gameLogic.getCurrentST().StoryTabMoveActive4 == true) {
+        if (storyTabViewModel.StoryTabMoveActive4 == true) {
             showUI(OptionBtn: Option4Btn, OptionImage: OptionImage4, OptionLabel: OptionLabel4)
-            OptionLabel4.text = gameLogic.getCurrentST().StoryTabMoveDiscription4
+            OptionLabel4.text = storyTabViewModel.StoryTabMoveDiscription4
         } else {
             hideUI(OptionBtn: Option4Btn, OptionImage: OptionImage4, OptionLabel: OptionLabel4)
         }
         
-        if (gameLogic.getCurrentST().StoryTabBackActive == true) {
+        if (storyTabViewModel.StoryTabBackActive == true) {
             showUI(OptionBtn: BackOptionBtn, OptionImage: BackOptionImage, OptionLabel: BackOptionLabel)
-            BackOptionLabel.text = gameLogic.getCurrentST().StoryTabBackDiscription
+            BackOptionLabel.text = storyTabViewModel.StoryTabBackDiscription
         } else {
             hideUI(OptionBtn: BackOptionBtn, OptionImage: BackOptionImage, OptionLabel: BackOptionLabel)
         }
         
-        if (gameLogic.getCurrentST().StoryTabFowardActive == true) {
+        if (storyTabViewModel.StoryTabFowardActive == true) {
             showUI(OptionBtn: ForwardOptionBtn, OptionImage: ForwardOptionImage, OptionLabel: ForwardOptionLabel)
-            ForwardOptionLabel.text = gameLogic.getCurrentST().StoryTabFowardDiscription
+            ForwardOptionLabel.text = storyTabViewModel.StoryTabFowardDiscription
         } else {
             hideUI(OptionBtn: ForwardOptionBtn, OptionImage: ForwardOptionImage, OptionLabel: ForwardOptionLabel)
         }
@@ -134,66 +127,51 @@ class StoryTabViewController: UIViewController, Storyboarded {
         OptionLabel.isHidden = true
     }
     
-    func initBackgroundMusic(){
-        let storyBack = gameLogic.getCurrentST().StoryTabMusicString
-        if storyBack != currentTrack {
-            aB.stopSoundBack()
-            aB.playBackgroundSound(storyBack)
-            currentTrack = storyBack
-            
-        }
-    }
-    
     @IBAction func OptionButtonPressed(_ sender: UIButton) {
-        aB.playButtonSound("pageFlip")
-        aB.stopVoice()
+        storyTabViewModel.playOptionButtonSound()
         
-        if (gameLogic.optionButtonAction(button: sender.tag)) {
+        if storyTabViewModel.OptionButtonAction(button: sender.tag) {
             coordinator?.storyToDice(vc: self)
         } else {
-            checkNextRoom(Story: gameLogic.nextStoryTab!)
+            checkNextRoom()
         }
         
-        if gameLogic.currentStoryTabString == "S02d" {
+        if storyTabViewModel.checkCharSelect(){
             coordinator?.storyToSelect(vc: self)
         }
-        initBackgroundMusic()
+        storyTabViewModel.initBackgroundMusic()
         initView()
     }
     
     
     
-    func checkNextRoom(Story: StoryTab){
-        if Story.isEncounter == true {
+    func checkNextRoom(){
+        if storyTabViewModel.checkNextEncounter() {
             coordinator?.storyToEncounter(vc: self)
         }
-        if Story.isItemRoom == true {
+        if storyTabViewModel.checkNextItemRoom() {
             coordinator?.storyToItems(vc: self)
         }
     }
     
-    func checkFromRoom(Story: StoryTab){
-        gameLogic.checkFromRoom(Story: Story)
-        if Story.isEncounter == true {
+    func checkFromRoom(){
+        storyTabViewModel.checkFromRoom()
+        if storyTabViewModel.checkFromEncounter() {
             coordinator?.storyToEncounter(vc: self)
         }
-        if Story.isItemRoom == true {
+        if storyTabViewModel.checkFromItemRoom() {
             coordinator?.storyToItems(vc: self)
         }
     }
     
     @IBAction func inventoryButtonPressed(_ sender: UIButton) {
-        aB.playButtonSound("buttonClicked")
-        aB.stopVoice()
-        gameLogic.saveCurrentGame()
+        storyTabViewModel.changeButtonPressed()
         coordinator?.storyToInventory(vc: self)
         
     }
     
     @IBAction func homeButtonPressed(_ sender: UIButton) {
-        aB.playButtonSound("buttonClicked")
-        aB.stopVoice()
-        gameLogic.saveCurrentGame()
+        storyTabViewModel.changeButtonPressed()
         coordinator?.storyToMain(vc: self)
         
     }

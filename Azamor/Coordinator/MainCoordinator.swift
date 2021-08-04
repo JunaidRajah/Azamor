@@ -35,7 +35,6 @@ class MainCoordinator: Coordinator {
     func mainToStory(vc: MainMenuViewController) {
         let destinationVC = StoryTabViewController.instantiate()
         destinationVC.coordinator = self
-        destinationVC.currentTrack = vc.currentTrack
         navigationController.popViewController(animated: false)
         navigationController.pushViewController(destinationVC, animated: true)
         UIView.transition(with: self.navigationController.view, duration: 1.0, options: UIView.AnimationOptions.transitionCrossDissolve, animations: nil, completion: nil)
@@ -45,7 +44,6 @@ class MainCoordinator: Coordinator {
         let destinationVC = InventoryViewController.instantiate()
         destinationVC.coordinator = self
         destinationVC.isFromMain = true
-        destinationVC.currentTrack = vc.currentTrack
         navigationController.popViewController(animated: false)
         navigationController.pushViewController(destinationVC, animated: true)
         UIView.transition(with: self.navigationController.view, duration: 1.0, options: UIView.AnimationOptions.transitionCrossDissolve, animations: nil, completion: nil)
@@ -55,7 +53,6 @@ class MainCoordinator: Coordinator {
         let destinationVC = MyCharacterViewController.instantiate()
         destinationVC.coordinator = self
         destinationVC.isFromMain = true
-        destinationVC.currentTrack = vc.currentTrack
         navigationController.popViewController(animated: false)
         navigationController.pushViewController(destinationVC, animated: true)
         UIView.transition(with: self.navigationController.view, duration: 1.0, options: UIView.AnimationOptions.transitionCrossDissolve, animations: nil, completion: nil)
@@ -66,7 +63,6 @@ class MainCoordinator: Coordinator {
     func storyToDice(vc: StoryTabViewController) {
         let destinationVC = DiceViewController.instantiate()
         destinationVC.coordinator = self
-        destinationVC.currentTrack = vc.currentTrack
         navigationController.popViewController(animated: false)
         navigationController.pushViewController(destinationVC, animated: true)
         UIView.transition(with: self.navigationController.view, duration: 1.0, options: UIView.AnimationOptions.transitionCrossDissolve, animations: nil, completion: nil)
@@ -78,7 +74,6 @@ class MainCoordinator: Coordinator {
         //destinationVC.currentStoryTabString = gameLogic.nextStoryTabString!
         destinationVC.isPlayerTurn = true
         //destinationVC.storyTabToReturn = gameLogic.getCurrentST().StoryTabID
-        destinationVC.aB = vc.aB
         navigationController.popViewController(animated: false)
         navigationController.pushViewController(destinationVC, animated: true)
         UIView.transition(with: self.navigationController.view, duration: 1.0, options: UIView.AnimationOptions.transitionCrossDissolve, animations: nil, completion: nil)
@@ -88,7 +83,6 @@ class MainCoordinator: Coordinator {
         let destinationVC = InventoryViewController.instantiate()
         destinationVC.coordinator = self
         destinationVC.isFromStory = true
-        destinationVC.currentTrack = vc.currentTrack
         navigationController.popViewController(animated: false)
         navigationController.pushViewController(destinationVC, animated: true)
         UIView.transition(with: self.navigationController.view, duration: 1.0, options: UIView.AnimationOptions.transitionCrossDissolve, animations: nil, completion: nil)
@@ -97,7 +91,6 @@ class MainCoordinator: Coordinator {
     func storyToSelect(vc: StoryTabViewController) {
         let destinationVC = CharacterSelectViewController.instantiate()
         destinationVC.coordinator = self
-        destinationVC.currentTrack = vc.currentTrack
         navigationController.popViewController(animated: false)
         navigationController.pushViewController(destinationVC, animated: true)
         UIView.transition(with: self.navigationController.view, duration: 1.0, options: UIView.AnimationOptions.transitionCrossDissolve, animations: nil, completion: nil)
@@ -106,7 +99,6 @@ class MainCoordinator: Coordinator {
     func storyToMain(vc: StoryTabViewController) {
         let destinationVC = MainMenuViewController.instantiate()
         destinationVC.coordinator = self
-        destinationVC.currentTrack = vc.currentTrack!
         navigationController.popViewController(animated: false)
         navigationController.pushViewController(destinationVC, animated: true)
         UIView.transition(with: self.navigationController.view, duration: 1.0, options: UIView.AnimationOptions.transitionCrossDissolve, animations: nil, completion: nil)
@@ -115,7 +107,6 @@ class MainCoordinator: Coordinator {
     func storyToItems(vc: StoryTabViewController) {
         let destinationVC = ItemViewController.instantiate()
         destinationVC.coordinator = self
-        destinationVC.currentTrack = vc.currentTrack!
         navigationController.popViewController(animated: false)
         navigationController.pushViewController(destinationVC, animated: true)
         UIView.transition(with: self.navigationController.view, duration: 1.0, options: UIView.AnimationOptions.transitionCrossDissolve, animations: nil, completion: nil)
@@ -126,7 +117,6 @@ class MainCoordinator: Coordinator {
     func diceToStory(vc: DiceViewController) {
         let destinationVC = StoryTabViewController.instantiate()
         destinationVC.coordinator = self
-        destinationVC.currentTrack = vc.currentTrack
         navigationController.popViewController(animated: false)
         navigationController.pushViewController(destinationVC, animated: true)
         UIView.transition(with: self.navigationController.view, duration: 1.0, options: UIView.AnimationOptions.transitionCrossDissolve, animations: nil, completion: nil)
@@ -139,7 +129,6 @@ class MainCoordinator: Coordinator {
         destinationVC.coordinator = self
         destinationVC.isPlayerTurn = vc.isPlayerTurn!
         destinationVC.isFromEncounter = true
-        destinationVC.currentTrack = vc.currentTrack
         navigationController.popViewController(animated: false)
         navigationController.pushViewController(destinationVC, animated: true)
         UIView.transition(with: self.navigationController.view, duration: 1.0, options: UIView.AnimationOptions.transitionCrossDissolve, animations: nil, completion: nil)
@@ -148,7 +137,6 @@ class MainCoordinator: Coordinator {
     func encounterToStory(vc: EncounterViewController) {
         let destinationVC = StoryTabViewController.instantiate()
         destinationVC.coordinator = self
-        destinationVC.currentTrack = vc.currentTrack
         navigationController.popViewController(animated: false)
         navigationController.pushViewController(destinationVC, animated: true)
         UIView.transition(with: self.navigationController.view, duration: 1.0, options: UIView.AnimationOptions.transitionCrossDissolve, animations: nil, completion: nil)
@@ -159,7 +147,6 @@ class MainCoordinator: Coordinator {
     func itemToStory(vc: ItemViewController) {
         let destinationVC = StoryTabViewController.instantiate()
         destinationVC.coordinator = self
-        destinationVC.currentTrack = vc.currentTrack
         navigationController.popViewController(animated: false)
         navigationController.pushViewController(destinationVC, animated: true)
         UIView.transition(with: self.navigationController.view, duration: 1.0, options: UIView.AnimationOptions.transitionCrossDissolve, animations: nil, completion: nil)
@@ -169,7 +156,6 @@ class MainCoordinator: Coordinator {
         let destinationVC = InventoryViewController.instantiate()
         destinationVC.coordinator = self
         destinationVC.isFromItem = true
-        destinationVC.currentTrack = vc.currentTrack
         navigationController.popViewController(animated: false)
         navigationController.pushViewController(destinationVC, animated: true)
         UIView.transition(with: self.navigationController.view, duration: 1.0, options: UIView.AnimationOptions.transitionCrossDissolve, animations: nil, completion: nil)
@@ -180,7 +166,6 @@ class MainCoordinator: Coordinator {
     func selectToStory(vc: CharacterSelectViewController) {
         let destinationVC = StoryTabViewController.instantiate()
         destinationVC.coordinator = self
-        destinationVC.currentTrack = vc.currentTrack
         navigationController.popViewController(animated: false)
         navigationController.pushViewController(destinationVC, animated: true)
         UIView.transition(with: self.navigationController.view, duration: 1.0, options: UIView.AnimationOptions.transitionCrossDissolve, animations: nil, completion: nil)
@@ -189,7 +174,6 @@ class MainCoordinator: Coordinator {
     func selectToChar(vc: CharacterSelectViewController) {
         let destinationVC = MyCharacterViewController.instantiate()
         destinationVC.coordinator = self
-        destinationVC.currentTrack = vc.currentTrack
         destinationVC.isFromMain = false
         navigationController.popViewController(animated: false)
         navigationController.pushViewController(destinationVC, animated: true)
@@ -201,7 +185,6 @@ class MainCoordinator: Coordinator {
     func inventoryToMain(vc: InventoryViewController) {
         let destinationVC = MainMenuViewController.instantiate()
         destinationVC.coordinator = self
-        destinationVC.currentTrack = vc.currentTrack!
         navigationController.popViewController(animated: false)
         navigationController.pushViewController(destinationVC, animated: true)
         UIView.transition(with: self.navigationController.view, duration: 1.0, options: UIView.AnimationOptions.transitionCrossDissolve, animations: nil, completion: nil)
@@ -210,7 +193,6 @@ class MainCoordinator: Coordinator {
     func inventoryToStory(vc: InventoryViewController) {
         let destinationVC = StoryTabViewController.instantiate()
         destinationVC.coordinator = self
-        destinationVC.currentTrack = vc.currentTrack
         navigationController.popViewController(animated: false)
         navigationController.pushViewController(destinationVC, animated: true)
         UIView.transition(with: self.navigationController.view, duration: 1.0, options: UIView.AnimationOptions.transitionCrossDissolve, animations: nil, completion: nil)
@@ -219,7 +201,6 @@ class MainCoordinator: Coordinator {
     func inventoryToItem(vc: InventoryViewController) {
         let destinationVC = ItemViewController.instantiate()
         destinationVC.coordinator = self
-        destinationVC.currentTrack = vc.currentTrack
         navigationController.popViewController(animated: false)
         navigationController.pushViewController(destinationVC, animated: true)
         UIView.transition(with: self.navigationController.view, duration: 1.0, options: UIView.AnimationOptions.transitionCrossDissolve, animations: nil, completion: nil)
@@ -228,11 +209,8 @@ class MainCoordinator: Coordinator {
     func inventoryToEncounter(vc: InventoryViewController) {
         let destinationVC = EncounterViewController.instantiate()
         destinationVC.coordinator = self
-        destinationVC.gameLogic = vc.gameLogic
         destinationVC.isReturnedFromInventory = true
         destinationVC.isPlayerTurn = vc.isPlayerTurn
-        destinationVC.currentTrack = vc.currentTrack
-        destinationVC.aB = vc.aB
         navigationController.popViewController(animated: false)
         navigationController.pushViewController(destinationVC, animated: true)
         UIView.transition(with: self.navigationController.view, duration: 1.0, options: UIView.AnimationOptions.transitionCrossDissolve, animations: nil, completion: nil)
@@ -247,7 +225,6 @@ class MainCoordinator: Coordinator {
         destinationVC.isFromEncounter = vc.isFromEncounter
         destinationVC.indexToChange = vc.indexToChange
         destinationVC.isPlayerTurn = vc.isPlayerTurn
-        destinationVC.currentTrack = vc.currentTrack
         navigationController.popViewController(animated: false)
         navigationController.pushViewController(destinationVC, animated: true)
         UIView.transition(with: self.navigationController.view, duration: 1.0, options: UIView.AnimationOptions.transitionCrossDissolve, animations: nil, completion: nil)
@@ -262,7 +239,6 @@ class MainCoordinator: Coordinator {
         destinationVC.isFromItem = vc.isFromItem
         destinationVC.isFromEncounter = vc.isFromEncounter
         destinationVC.isPlayerTurn = vc.isPlayerTurn
-        destinationVC.currentTrack = vc.currentTrack
         navigationController.popViewController(animated: false)
         navigationController.pushViewController(destinationVC, animated: true)
         UIView.transition(with: self.navigationController.view, duration: 1.0, options: UIView.AnimationOptions.transitionCrossDissolve, animations: nil, completion: nil)
@@ -273,7 +249,6 @@ class MainCoordinator: Coordinator {
     func charToMain(vc: MyCharacterViewController) {
         let destinationVC = MainMenuViewController.instantiate()
         destinationVC.coordinator = self
-        destinationVC.currentTrack = vc.currentTrack!
         navigationController.popViewController(animated: false)
         navigationController.pushViewController(destinationVC, animated: true)
         UIView.transition(with: self.navigationController.view, duration: 1.0, options: UIView.AnimationOptions.transitionCrossDissolve, animations: nil, completion: nil)
@@ -282,7 +257,6 @@ class MainCoordinator: Coordinator {
     func charToSelect(vc: MyCharacterViewController) {
         let destinationVC = CharacterSelectViewController.instantiate()
         destinationVC.coordinator = self
-        destinationVC.currentTrack = vc.currentTrack
         navigationController.popViewController(animated: false)
         navigationController.pushViewController(destinationVC, animated: true)
         UIView.transition(with: self.navigationController.view, duration: 1.0, options: UIView.AnimationOptions.transitionCrossDissolve, animations: nil, completion: nil)

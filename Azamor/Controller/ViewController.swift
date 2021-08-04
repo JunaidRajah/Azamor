@@ -12,17 +12,13 @@ class ViewController: UIViewController, Storyboarded {
     
     var coordinator: MainCoordinator?
     var player: AVPlayer?
-    var aB = audioBrain.audioInstance
-    var gameLogic = gameBrain.gameInstance
+    var initialViewModel = InitialViewModel()
     
     @IBOutlet weak var startButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        gameLogic.initGame()
         playBackgroundVideo()
-        aB.playBackgroundSound("Start")
-        // Do any additional setup after loading the view.
     }
     
     func playBackgroundVideo() {

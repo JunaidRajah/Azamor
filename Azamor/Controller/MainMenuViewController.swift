@@ -7,38 +7,31 @@
 
 import UIKit
 import AVFoundation
-import RealmSwift
 
 class MainMenuViewController: UIViewController, Storyboarded {
 
     var coordinator: MainCoordinator?
-    let realm = try! Realm()
     var player: AVPlayer?
-    var aB = audioBrain.audioInstance
-    var gameLogic = gameBrain.gameInstance
-    var currentTrack = "Start"
+    var mainMenuViewModel = MainMenuViewModel()
     
     @IBOutlet weak var charButton: UIButton!
     @IBOutlet weak var armButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        gameLogic.initGame()
         initView()
     }
     
     func initView() {
         playBackgroundVideo()
-        if gameLogic.checkIfStartingCharIsActive() {
+        if mainMenuViewModel.checkIfStartingCharIsActive() {
             charButton.isEnabled = false
             armButton.isEnabled = false
         }
     }
     
     @IBAction func enterAzamorButtonPressed(_ sender: UIButton) {
-        aB.playButtonSound("buttonClicked")
-        let char = characterBrain()
-        char.initCharacter()
+        mainMenuViewModel.enterAzamorButtonPressed()
         coordinator?.mainToStory(vc: self)
     }
     
@@ -65,12 +58,12 @@ class MainMenuViewController: UIViewController, Storyboarded {
         player!.seek(to: CMTime.zero)
     }
     @IBAction func inventoryButtonPressed(_ sender: UIButton) {
-        aB.playButtonSound("buttonClicked")
+        mainMenuViewModel.playButtonSound()
         coordinator?.mainToInventory(vc: self)
     }
     
     @IBAction func characterButtonPressed(_ sender: UIButton) {
-        aB.playButtonSound("buttonClicked")
+        mainMenuViewModel.playButtonSound()
         coordinator?.mainToChar(vc: self)
     }
     

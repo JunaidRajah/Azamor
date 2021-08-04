@@ -10,10 +10,13 @@ import RealmSwift
 import AVFoundation
 
 class audioBrain {
+    
     static let audioInstance = audioBrain()
     var audioPlayerBack: AVAudioPlayer?
     var audioPlayerButton: AVAudioPlayer?
     var audioPlayerVoice: AVAudioPlayer?
+    
+    var currentTrack = "Start"
     
     func playButtonSound(_ answer: String){
         let pathToSound = Bundle.main.path(forResource: answer, ofType: "wav")!
