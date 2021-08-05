@@ -325,19 +325,16 @@
 		A12CBEF8268C82C70003BF11 /* Azamor */ = {
 			isa = PBXGroup;
 			children = (
-				A1A5B36526982300009410E5 /* Sounds */,
+				A1A6247826BC11BC00F95772 /* Resources */,
+				A1A6246126B9787D00F95772 /* Coordinator */,
 				A12CBF2E268C92F70003BF11 /* Models */,
 				A18BBB6D26B475D600F71BDE /* View Models */,
 				A12CBF2D268C92D60003BF11 /* View */,
 				A12CBF2C268C92C20003BF11 /* Controller */,
-				A12CBF02268C82C70003BF11 /* Assets.xcassets */,
 				A12CBEF9268C82C70003BF11 /* AppDelegate.swift */,
 				A12CBEFB268C82C70003BF11 /* SceneDelegate.swift */,
 				A12CBF07268C82C70003BF11 /* Info.plist */,
-				A12CBF29268C83120003BF11 /* GameBack.mp4 */,
-				A12CBF31268CA31A0003BF11 /* MainMenuBack.mp4 */,
 				A1A5B3632697D4F7009410E5 /* azamor.realm */,
-				A1A6246126B9787D00F95772 /* Coordinator */,
 			);
 			path = Azamor;
 			sourceTree = "<group>";
@@ -517,6 +514,34 @@
 				A1A6246426B9795300F95772 /* MainCoordinator.swift */,
 			);
 			path = Coordinator;
+			sourceTree = "<group>";
+		};
+		A1A6247826BC11BC00F95772 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				A1A6247A26BC11FA00F95772 /* Assets */,
+				A1A6247926BC11D100F95772 /* Video Backgrounds */,
+				A1A5B36526982300009410E5 /* Sounds */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		A1A6247926BC11D100F95772 /* Video Backgrounds */ = {
+			isa = PBXGroup;
+			children = (
+				A12CBF29268C83120003BF11 /* GameBack.mp4 */,
+				A12CBF31268CA31A0003BF11 /* MainMenuBack.mp4 */,
+			);
+			name = "Video Backgrounds";
+			path = "../New Group/Video Backgrounds";
+			sourceTree = "<group>";
+		};
+		A1A6247A26BC11FA00F95772 /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				A12CBF02268C82C70003BF11 /* Assets.xcassets */,
+			);
+			path = Assets;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
