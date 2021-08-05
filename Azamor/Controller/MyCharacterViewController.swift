@@ -11,12 +11,7 @@ import RealmSwift
 class MyCharacterViewController: UIViewController, Storyboarded {
     
     var coordinator: MainCoordinator?
-    let realm = try! Realm()
-    var aB = audioBrain.audioInstance
-    var gameLogic = gameBrain.gameInstance
-    var currentCharacter = characterBrain.characterInstance
-    
-    var currentTrack: String?
+    var myCharacterViewModel = MyCharacterViewModel()
     
     var isFromMain = true
 
@@ -36,24 +31,23 @@ class MyCharacterViewController: UIViewController, Storyboarded {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        currentCharacter.initCharacter()
         initView()
     }
     
     func initView() {
-        NameLabel.text = currentCharacter.returnName()
-        HpLabel.text = String(currentCharacter.maxHP())
-        ACLabel.text = String(currentCharacter.returnAC())
-        LevelLabel.text = String(currentCharacter.returnLevel())
-        AttackLabel.text = String(currentCharacter.returnAttackMod())
-        StrLabel.text = String(10 + currentCharacter.returnStrengthMod())
-        DexLabel.text = String(10 + currentCharacter.returnDexterityMod())
-        ConLabel.text = String(10 + currentCharacter.returnConstitutionMod())
-        WisLabel.text = String(10 + currentCharacter.returnWisdomMod())
-        IntLabel.text = String(10 + currentCharacter.returnIntelligenceMod())
-        ChaLabel.text = String(10 + currentCharacter.returnCharismaMod())
+        NameLabel.text = myCharacterViewModel.nameLabelText
+        HpLabel.text = myCharacterViewModel.hpLabelText
+        ACLabel.text = myCharacterViewModel.acLabelText
+        LevelLabel.text = myCharacterViewModel.levelLabelText
+        AttackLabel.text = myCharacterViewModel.attackLabelText
+        StrLabel.text = myCharacterViewModel.strLabelText
+        DexLabel.text = myCharacterViewModel.dexLabelText
+        ConLabel.text = myCharacterViewModel.conLabelText
+        WisLabel.text = myCharacterViewModel.wisLabelText
+        IntLabel.text = myCharacterViewModel.intLabelText
+        ChaLabel.text = myCharacterViewModel.chaLabelText
         
-        charImage.image = UIImage(named: currentCharacter.returnImgString())
+        charImage.image = UIImage(named: myCharacterViewModel.charImageString!)
     }
     
     @IBAction func backButtonPressed(_ sender: UIButton) {
