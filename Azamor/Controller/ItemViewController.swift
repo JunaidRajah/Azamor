@@ -12,10 +12,7 @@ import AVFoundation
 class ItemViewController: UIViewController, Storyboarded {
     
     var coordinator: MainCoordinator?
-    let realm = try! Realm()
-    var aB = audioBrain.audioInstance
-    var gameLogic = gameBrain.gameInstance
-    var currentCharacter = characterBrain.characterInstance
+    var itemViewModel = ItemViewModel()
     
     @IBOutlet weak var ItemRoomDiscription: UILabel!
     @IBOutlet weak var ItemRoomOptionLabel: UILabel!
@@ -23,40 +20,27 @@ class ItemViewController: UIViewController, Storyboarded {
     @IBOutlet weak var MoveButton: UIButton!
     @IBOutlet weak var inventoryButton: UIButton!
     
-    var currentTrack: String?
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        gameLogic.initGame()
-        currentCharacter.initCharacter()
         initView()
         // Do any additional setup after loading the view.
     }
     
     func initView(){
-        ItemRoomDiscription.text = gameLogic.getCurrentST().StoryTabDiscription
-        ItemRoomOptionLabel.text = gameLogic.getCurrentST().StoryTabMoveDiscription1
-        var itemString = ""
-        for item in gameLogic.getCurrentST().items {
-            itemString = itemString + item.Name + "\n"
-        }
-        ItemsLabel.text = itemString
+        itemViewModel.initView()
+        
+        ItemRoomDiscription.text = itemViewModel.itemRoomDiscriptionText
+        ItemRoomOptionLabel.text = itemViewModel.itemRoomOptionLabelText
+        ItemsLabel.text = itemViewModel.ItemsLabelText
     }
     
-    
-    
     @IBAction func moveButtonPressed(_ sender: UIButton) {
-        aB.playButtonSound("buttonClicked")
-        for item in gameLogic.getCurrentST().items {
-            currentCharacter.addItem(item: item)
-        }
-        
-        gameLogic.saveGame(save: gameLogic.getCurrentST().StoryTabMoveID1)
+        itemViewModel.moveButtonPressed()
         coordinator?.itemToStory(vc: self)
     }
     
     @IBAction func inventoryButtonPressed(_ sender: UIButton) {
-        aB.playButtonSound("buttonClicked")
+        itemViewModel.playButtonSound()
         coordinator?.itemToInventory(vc: self)
     }
 }

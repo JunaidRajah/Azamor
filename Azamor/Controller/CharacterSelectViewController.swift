@@ -11,31 +11,19 @@ import RealmSwift
 class CharacterSelectViewController: UIViewController, Storyboarded {
     
     var coordinator: MainCoordinator?
-    let realm = try! Realm()
-    var aB = audioBrain.audioInstance
-    var gameLogic = gameBrain.gameInstance
-    var currentCharacter = characterBrain.characterInstance
-    
-    var currentGame: Game?
-    
-    var currentTrack: String?
+    var characterSelectViewModel = CharacterSelectViewModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        currentGame = realm.objects(Game.self).first
-        
     }
     
     @IBAction func moreButtonPresssed(_ sender: UIButton) {
-        gameLogic.changeCharacter(index: sender.tag)
-        aB.playButtonSound("buttonClicked")
+        characterSelectViewModel.moreButtonPresssed(button: sender.tag)
         coordinator?.selectToChar(vc: self)
     }
     
     @IBAction func selectButtonPressed(_ sender: UIButton) {
-        gameLogic.changeCharacter(index: sender.tag)
-        aB.playButtonSound("buttonClicked")
-        aB.stopSoundBack()
+        characterSelectViewModel.selectButtonPressed(button: sender.tag)
         coordinator?.selectToStory(vc: self)
     }
 }
