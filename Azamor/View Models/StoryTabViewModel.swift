@@ -112,6 +112,10 @@ class StoryTabViewModel {
         gameLogic.checkFromRoom(Story: gameLogic.getCurrentST())
     }
     
+    func checkNextRoom(){
+        gameLogic.checkNextRoom(Story: gameLogic.getCurrentST())
+    }
+    
     func buttonPressed() {
         aB.playButtonSound("buttonClicked")
         aB.stopVoice()

@@ -140,12 +140,14 @@ class StoryTabViewController: UIViewController, Storyboarded {
             coordinator?.storyToSelect(vc: self)
         }
         storyTabViewModel.initBackgroundMusic()
+        storyTabViewModel.refreshModelDisplayVariables()
         initView()
     }
     
     
     
     func checkNextRoom(){
+        storyTabViewModel.checkNextRoom()
         if storyTabViewModel.checkNextEncounter() {
             coordinator?.storyToEncounter(vc: self)
         }

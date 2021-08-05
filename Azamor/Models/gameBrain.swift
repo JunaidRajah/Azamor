@@ -258,6 +258,11 @@ class gameBrain {
             nextStoryTabString = currentStoryTab!.StoryTabID
         }
     }
+    func checkNextRoom(Story: StoryTab){
+        if Story.isEncounter == true {
+            nextStoryTabString = currentStoryTab!.StoryTabID
+        }
+    }
     
     func returnCorrectStatMod(stat: String) -> Int {
         var mod = 0

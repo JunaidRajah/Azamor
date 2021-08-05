@@ -72,7 +72,6 @@ class MainCoordinator: Coordinator {
         let destinationVC = EncounterViewController.instantiate()
         destinationVC.coordinator = self
         //destinationVC.currentStoryTabString = gameLogic.nextStoryTabString!
-        destinationVC.isPlayerTurn = true
         //destinationVC.storyTabToReturn = gameLogic.getCurrentST().StoryTabID
         navigationController.popViewController(animated: false)
         navigationController.pushViewController(destinationVC, animated: true)
@@ -127,7 +126,6 @@ class MainCoordinator: Coordinator {
     func encounterToInventory(vc: EncounterViewController) {
         let destinationVC = InventoryViewController.instantiate()
         destinationVC.coordinator = self
-        destinationVC.isPlayerTurn = vc.isPlayerTurn!
         destinationVC.isFromEncounter = true
         navigationController.popViewController(animated: false)
         navigationController.pushViewController(destinationVC, animated: true)
@@ -210,7 +208,6 @@ class MainCoordinator: Coordinator {
         let destinationVC = EncounterViewController.instantiate()
         destinationVC.coordinator = self
         destinationVC.isReturnedFromInventory = true
-        destinationVC.isPlayerTurn = vc.isPlayerTurn
         navigationController.popViewController(animated: false)
         navigationController.pushViewController(destinationVC, animated: true)
         UIView.transition(with: self.navigationController.view, duration: 1.0, options: UIView.AnimationOptions.transitionCrossDissolve, animations: nil, completion: nil)

@@ -12,10 +12,7 @@ import AVFoundation
 class EncounterViewController: UIViewController, Storyboarded {
     
     var coordinator: MainCoordinator?
-    let realm = try! Realm()
-    var aB = audioBrain.audioInstance
-    var gameLogic = gameBrain.gameInstance
-    var currentCharacter = characterBrain.characterInstance
+    var encounterViewModel = EncounterViewModel()
     
     @IBOutlet weak var BackgroundImage: UIImageView!
     @IBOutlet weak var PlayerCharacterPortait: UIImageView!
@@ -62,83 +59,57 @@ class EncounterViewController: UIViewController, Storyboarded {
     @IBOutlet weak var D20Label: UILabel!
     @IBOutlet weak var ReturnButton: UIButton!
     @IBOutlet weak var ReturnLabel: UILabel!
-
-    var currentTrack: String?
-    
-    var currentStoryTab: StoryTab?
-    var currentEnemy: Enemy?
-    var EncounterItems: List<Item>?
-    var action1: Action?
-    var action2: Action?
-    var action3: Action?
-    var action4: Action?
-    var action5: Action?
-    var action6: Action?
     
     var isReturnedFromInventory = false
-    var isPlayerTurn: Bool?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        currentCharacter.initCharacter()
-        gameLogic.nextStoryTabString = gameLogic.getCurrentST().StoryTabMoveID1
-        currentEnemy = gameLogic.getCurrentST().enemies.first
-        EncounterItems = gameLogic.getCurrentST().items
-        
+       
         if isReturnedFromInventory == false {
-            do {
-                let enemy = realm.objects(Enemy.self).filter("Name = '\(String(describing: currentEnemy!.Name))'")
-                try realm.write {
-                    enemy.setValue(currentEnemy!.HitPoints, forKey: "CurrentHitPoints")
-                }
-            } catch  {
-                print(error)
-            }
+            encounterViewModel.setEnemyHP()
         }
         else {
             isReturnedFromInventory = false
         }
-        
         addActions()
         initView()
         //initBackgroundMusic()
     }
     
     func initView() {
-        
-        if currentEnemy?.EnemyImageString != "" {
-            EnemyImage.image = UIImage(named: currentEnemy!.EnemyImageString)
+        encounterViewModel.initView()
+        if encounterViewModel.EnemyImageString != "" {
+            EnemyImage.image = UIImage(named: encounterViewModel.EnemyImageString!)
         }
-        PlayerCharacterPortait.image = UIImage(named: currentCharacter.returnImgString())
-        BackgroundImage.image = UIImage(named: gameLogic.getCurrentST().StoryTabBackgroundImageString)
-        EncounterTitleLabel.text = gameLogic.getCurrentST().StoryTabDiscription
-        PlayerHPLabel.text = "HP: \(String(describing: currentCharacter.tempHP()))"
-        PlayerArmorLabel.text = "Armor: \(String(describing: currentCharacter.returnAC()))"
-        PlayerAttackLabel.text = "Attack: \(String(describing: currentCharacter.returnAttackMod()))"
+        PlayerCharacterPortait.image = UIImage(named: encounterViewModel.characterImageString!)
+        BackgroundImage.image = UIImage(named: encounterViewModel.StoryTabBackgroundImageString!)
+        EncounterTitleLabel.text = encounterViewModel.StoryTabDiscription!
+        PlayerHPLabel.text = "HP: \(String(describing: encounterViewModel.tempHP!))"
+        PlayerArmorLabel.text = "Armor: \(String(describing: encounterViewModel.returnAC!))"
+        PlayerAttackLabel.text = "Attack: \(String(describing: encounterViewModel.returnAttackMod!))"
         
-        EnemyHPLabel.text = "HP: \(String(describing: currentEnemy!.CurrentHitPoints))"
-        EnemyArmorLabel.text = "Armor: \(String(describing: currentEnemy!.AC))"
-        EnemyAttackLabel.text = "Attack: \(String(describing: currentEnemy!.AttackMod))"
-        EnemyDamageLabel.text = "Damage: \(String(describing: currentEnemy!.actions.first!.Damage))"
-        EnemyNameLabel.text = "\(String(describing: currentEnemy!.Name))"
-        PlayerNameLabel.text = currentCharacter.returnName()
+        EnemyHPLabel.text = "HP: \(String(describing: encounterViewModel.CurrentHitPoints!))"
+        EnemyArmorLabel.text = "Armor: \(String(describing: encounterViewModel.AC!))"
+        EnemyAttackLabel.text = "Attack: \(String(describing: encounterViewModel.AttackMod!))"
+        EnemyDamageLabel.text = "Damage: \(String(describing: encounterViewModel.Damage!))"
+        EnemyNameLabel.text = "\(String(describing: encounterViewModel.Name!))"
+        PlayerNameLabel.text = encounterViewModel.Name
     }
     
     // if else if else if else i need to refactor this big time
     
     func addActions() {
-        if currentCharacter.A1isActive() == true {
-            action1 = currentCharacter.returnAction1()
-            WeaponAction1Label.text = action1?.Name
+        
+        if encounterViewModel.isAction1Active(){
+            WeaponAction1Label.text = encounterViewModel.WeaponAction1LabelText
         } else {
             WeaponAction1Label.isHidden = true
             WeaponAction1Button.isHidden = true
             Weapon1Back.isHidden = true
         }
         
-        if currentCharacter.A2isActive() == true {
-            action2 = currentCharacter.returnAction2()
-            WeaponAction2Label.text = action2?.Name
+        if encounterViewModel.isAction2Active() {
+            WeaponAction2Label.text = encounterViewModel.WeaponAction2LabelText
             
         } else {
             WeaponAction2Label.isHidden = true
@@ -146,62 +117,38 @@ class EncounterViewController: UIViewController, Storyboarded {
             Weapon2Back.isHidden = true
         }
         
-        if currentCharacter.A3isActive() == true {
-            action3 = currentCharacter.returnAction3()
-            NormalAction1Label.text = action3?.Name
+        if encounterViewModel.isAction3Active(){
+            NormalAction1Label.text = encounterViewModel.NormalAction1LabelText
         } else {
             NormalAction1Label.isHidden = true
             NormalAction1Button.isHidden = true
             Normal1Back.isHidden = true
         }
         
-        if currentCharacter.A4isActive() == true {
-            action4 = currentCharacter.returnAction4()
-            NormalAction2Label.text = action4?.Name
+        if encounterViewModel.isAction4Active() {
+            NormalAction2Label.text = encounterViewModel.NormalAction2LabelText
         } else {
             NormalAction2Label.isHidden = true
             NormalAction2Button.isHidden = true
             Normal2Back.isHidden = true
         }
         
-        if currentCharacter.U1isActive() == true {
-            if currentCharacter.returnInventoryItem(slot: 5).PotionActive == true{
-                action5 = currentCharacter.returnUsableAction1()
-                UsableAction1Label.text = action5?.Name
-            }
-            if currentCharacter.returnInventoryItem(slot: 5).DamageActive == true {
-                action5 = currentCharacter.returnUsableAction1()
-                UsableAction1Label.text = action5?.Name
-            }
-            
+        if encounterViewModel.isUsable1Active() {
+            UsableAction1Label.text = encounterViewModel.UsableAction1LabelText
         } else {
             UsableAction1Label.isHidden = true
             UsableAction1Button.isHidden = true
             Usable1Back.isHidden = true
         }
         
-        if currentCharacter.U2isActive() == true {
-            if currentCharacter.returnInventoryItem(slot: 6).PotionActive == true{
-                action6 = currentCharacter.returnUsableAction2()
-                UsableAction2Label.text = action6?.Name
-            }
-            if currentCharacter.returnInventoryItem(slot: 6).DamageActive == true {
-                action6 = currentCharacter.returnUsableAction2()
-                UsableAction2Label.text = action6?.Name
-            }
+        if encounterViewModel.isUsable2Active() {
+            UsableAction2Label.text = encounterViewModel.UsableAction2LabelText
+            
         } else {
             UsableAction2Label.isHidden = true
             UsableAction2Button.isHidden = true
             Usable2Back.isHidden = true
         }
-    }
-    
-    func roll(Mod: Int) -> Int {
-        
-        var roll =  Int.random(in: 1...20)
-        roll = roll + Mod
-        print(roll)
-        return roll
     }
     
     //dice show/hide functions
@@ -244,206 +191,72 @@ class EncounterViewController: UIViewController, Storyboarded {
         InventoryButton.isEnabled = true
     }
     
-//    func initBackgroundMusic(){
-//        let storyBack = gameLogic.getCurrentST().StoryTabMusicString
-//        if storyBack != currentTrack {
-//            aB.stopSoundBack()
-//            aB.playBackgroundSound(storyBack)
-//            currentTrack = storyBack
-//        }
-//    }
     //Switch not working as i expected seperate this is basically the same code 6 times
     
     @IBAction func actionButtonPressed(_ sender: UIButton) {
-        aB.playButtonSound("buttonClicked")
-        isPlayerTurn = false
-        switch sender.tag {
-        case 1:
-            let attackRoll = roll(Mod: currentCharacter.returnAttackMod())
-            if attackRoll >= currentEnemy!.AC {
-                let newHP = currentEnemy!.CurrentHitPoints - action1!.Damage
-                
-                do {
-                    let enemy = realm.objects(Enemy.self).filter("Name = '\(String(describing: currentEnemy!.Name))'")
-                    try realm.write {
-                        enemy.setValue(newHP, forKey: "CurrentHitPoints")
-                    }
-                } catch  {
-                    print(error)
-                }
-                DiceOutcomeLabel.text = "Your Attack Roll Hit and Dealt \(action1!.Damage) Damage to The \(currentEnemy!.Name)"
+        encounterViewModel.playButtonSound()
+        encounterViewModel.actionButtonPressed(button: sender.tag)
+        
+        if sender.tag == 1 || sender.tag == 2 {
+            if encounterViewModel.didAttackHit() {
+                DiceOutcomeLabel.text = encounterViewModel.DiceOutcomeLabelText
             } else {
                 DiceOutcomeLabel.text = "Your Attack Roll Missed"
             }
-            D20Label.text = "\(attackRoll)"
+            D20Label.text = encounterViewModel.D20LabelText
             showDice()
-        case 2:
-            let attackRoll = roll(Mod: currentCharacter.returnAttackMod())
-            if attackRoll >= currentEnemy!.AC {
-                let newHP = currentEnemy!.CurrentHitPoints - action2!.Damage
-                
-                do {
-                    let enemy = realm.objects(Enemy.self).filter("Name = '\(String(describing: currentEnemy!.Name))'")
-                    try realm.write {
-                        enemy.setValue(newHP, forKey: "CurrentHitPoints")
-                    }
-                } catch  {
-                    print(error)
-                }
-                DiceOutcomeLabel.text = "Your Attack Roll Hit and Dealt \(action2!.Damage) Damage to The \(currentEnemy!.Name)"
-            } else {
-                DiceOutcomeLabel.text = "Your Attack Roll Missed"
-            }
-            D20Label.text = "\(attackRoll)"
-            showDice()
-        case 3:
-            if action3!.isDamageAction == true {
-                let attackRoll = roll(Mod: currentCharacter.returnAttackMod())
-                if attackRoll >= currentEnemy!.AC {
-                    let newHP = currentEnemy!.CurrentHitPoints - action3!.Damage
-                    
-                    do {
-                        let enemy = realm.objects(Enemy.self).filter("Name = '\(String(describing: currentEnemy!.Name))'")
-                        try realm.write {
-                            enemy.setValue(newHP, forKey: "CurrentHitPoints")
-                        }
-                    } catch  {
-                        print(error)
-                    }
-                    DiceOutcomeLabel.text = "Your Attack Roll Hit and Dealt \(action3!.Damage) Damage to The \(currentEnemy!.Name)"
+        } else {
+            if encounterViewModel.checkDamageAction(action: sender.tag) {
+                if encounterViewModel.didAttackHit() {
+                    DiceOutcomeLabel.text = encounterViewModel.DiceOutcomeLabelText
                 } else {
                     DiceOutcomeLabel.text = "Your Attack Roll Missed"
                 }
-                D20Label.text = "\(attackRoll)"
+                D20Label.text = encounterViewModel.D20LabelText
                 showDice()
-            } else if action3!.isBuffAction {
-                currentCharacter.changeHP(amount: action3!.HitPoints)
-                
+            } else if encounterViewModel.checkBuffAction(action: sender.tag) {
                 showDice()
                 returnFunction()
             }
-        case 4:
-            if action4!.isDamageAction == true {
-                let attackRoll = roll(Mod: currentCharacter.returnAttackMod())
-                if attackRoll >= currentEnemy!.AC {
-                    let newHP = currentEnemy!.CurrentHitPoints - action4!.Damage
-                    
-                    do {
-                        let enemy = realm.objects(Enemy.self).filter("Name = '\(String(describing: currentEnemy!.Name))'")
-                        try realm.write {
-                            enemy.setValue(newHP, forKey: "CurrentHitPoints")
-                        }
-                    } catch  {
-                        print(error)
-                    }
-                    DiceOutcomeLabel.text = "Your Attack Roll Hit and Dealt \(action4!.Damage) Damage to The \(currentEnemy!.Name)"
-                } else {
-                    DiceOutcomeLabel.text = "Your Attack Roll Missed"
-                }
-                D20Label.text = "\(attackRoll)"
-                showDice()
-            } else if action4!.isBuffAction {
-                currentCharacter.changeHP(amount: action4!.HitPoints)
-                
-                showDice()
-                returnFunction()
-            }
-        case 5:
-            if action5!.isDamageAction == true {
-                let attackRoll = roll(Mod: currentCharacter.returnAttackMod())
-                if attackRoll >= currentEnemy!.AC {
-                    let newHP = currentEnemy!.CurrentHitPoints - action5!.Damage
-                    
-                    do {
-                        let enemy = realm.objects(Enemy.self).filter("Name = '\(String(describing: currentEnemy!.Name))'")
-                        try realm.write {
-                            enemy.setValue(newHP, forKey: "CurrentHitPoints")
-                        }
-                    } catch  {
-                        print(error)
-                    }
-                    DiceOutcomeLabel.text = "Your Attack Roll Hit and Dealt \(action5!.Damage) Damage to The \(currentEnemy!.Name)"
-                } else {
-                    DiceOutcomeLabel.text = "Your Attack Roll Missed"
-                }
-                D20Label.text = "\(attackRoll)"
-                showDice()
-            } else if action5!.isBuffAction {
-                currentCharacter.changeHP(amount: action5!.HitPoints)
-                showDice()
-                returnFunction()
-            }
-        case 6:
-            if action6!.isDamageAction == true {
-                let attackRoll = roll(Mod: currentCharacter.returnAttackMod())
-                if attackRoll >= currentEnemy!.AC {
-                    let newHP = currentEnemy!.CurrentHitPoints - action6!.Damage
-                    
-                    do {
-                        let enemy = realm.objects(Enemy.self).filter("Name = '\(String(describing: currentEnemy!.Name))'")
-                        try realm.write {
-                            enemy.setValue(newHP, forKey: "CurrentHitPoints")
-                        }
-                    } catch  {
-                        print(error)
-                    }
-                    DiceOutcomeLabel.text = "Your Attack Roll Hit and Dealt \(action6!.Damage) Damage to The \(currentEnemy!.Name)"
-                } else {
-                    DiceOutcomeLabel.text = "Your Attack Roll Missed"
-                }
-                D20Label.text = "\(attackRoll)"
-                showDice()
-            } else if action6!.isBuffAction {
-                currentCharacter.changeHP(amount: action6!.HitPoints)
-                showDice()
-                returnFunction()
-            }
-        default:
-            print("error")
         }
     }
     
     @IBAction func inventoryButtonPressed(_ sender: UIButton) {
-        aB.playButtonSound("buttonClicked")
+        encounterViewModel.playButtonSound()
         coordinator?.encounterToInventory(vc: self)
     }
     
     func returnFunction() {
-        if isPlayerTurn == false {
-            if currentEnemy!.CurrentHitPoints > 0 {
-                let attackRoll = roll(Mod: currentEnemy!.AttackMod)
-                if attackRoll >= currentCharacter.returnAC() {
-                    let newHP = 0 - currentEnemy!.actions.first!.Damage
-                    currentCharacter.changeHP(amount: newHP)
-                    DiceOutcomeLabel.text = "The \(currentEnemy!.Name) Attack Hit and Dealt \(currentEnemy!.actions.first!.Damage) Damage to You"
+        if encounterViewModel.isPlayerTurn == false {
+            if encounterViewModel.checkEnemyHp() {
+                encounterViewModel.rollForAttack()
+                
+                if encounterViewModel.didAttackHit() {
+                    encounterViewModel.attackAction()
+                    DiceOutcomeLabel.text = encounterViewModel.DiceOutcomeLabelText
                 }
                 else {
-                    DiceOutcomeLabel.text = "The \(currentEnemy!.Name) Attack Roll Missed"
+                    encounterViewModel.missedAttack()
+                    DiceOutcomeLabel.text = encounterViewModel.DiceOutcomeLabelText
                 }
-                D20Label.text = "\(attackRoll)"
-                isPlayerTurn = true
+                encounterViewModel.attackEnd()
+                D20Label.text = encounterViewModel.D20LabelText
             } else {
-                gameLogic.saveGame(save: gameLogic.nextStoryTabString!)
-                aB.stopVoice()
-                aB.playVoiceSound(gameLogic.nextStoryTabString!)
+                encounterViewModel.enemyIsDead()
                 coordinator?.encounterToStory(vc: self)
             }
         } else {
-            if currentCharacter.tempHP() <= 0 {
-                currentCharacter.resetHP()
-                gameLogic.storyTabToReturn = gameLogic.getCurrentST().StoryTabID
-                gameLogic.saveGame(save: gameLogic.storyTabToReturn!)
+            if encounterViewModel.didCharacterDie(){
+                encounterViewModel.ifCharacterDied()
                 coordinator?.encounterToStory(vc: self)
-            } else {
-                
-            }
+            } 
             hideDice()
         }
         initView()
     }
     
     @IBAction func returnButtonPressed(_ sender: Any) {
-        aB.playButtonSound("buttonClicked")
+        encounterViewModel.playButtonSound()
         returnFunction()
     }
     
