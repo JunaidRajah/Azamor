@@ -12,10 +12,7 @@ import AVFoundation
 class ItemListViewController: UIViewController, Storyboarded {
     
     var coordinator: MainCoordinator?
-    let realm = try! Realm()
-    var aB = audioBrain.audioInstance
-    var gameLogic = gameBrain.gameInstance
-    var currentCharacter = characterBrain.characterInstance
+    var itemListViewModel = ItemListViewModel()
     
     @IBOutlet weak var Item1Label: UILabel!
     @IBOutlet weak var Item2Label: UILabel!
@@ -38,28 +35,24 @@ class ItemListViewController: UIViewController, Storyboarded {
     
     var indexToChange: Int?
     
-    var currentTrack: String?
-    
-    let charInit = characterBrain()
-    
     var isPlayerTurn = false
         
     override func viewDidLoad() {
         super.viewDidLoad()
-        currentCharacter.initCharacter()
+        itemListViewModel.passIndexToChange(index: indexToChange!)
         initView()
     }
     
     func initView(){
-        switch gameLogic.itemListToSend!.count {
+        switch itemListViewModel.itemListAmount {
         case 0:
             Item1Label.isHidden = false
-            Item1Label.text = "No Available Items"
+            Item1Label.text = itemListViewModel.item1LabelText
         case 1:
             Item1Label.isHidden = false
             Item1Button.isHidden = false
             
-            Item1Label.text = gameLogic.itemListToSend![0].Name
+            Item1Label.text = itemListViewModel.item1LabelText
         case 2:
             Item1Label.isHidden = false
             Item1Button.isHidden = false
@@ -67,8 +60,8 @@ class ItemListViewController: UIViewController, Storyboarded {
             Item2Label.isHidden = false
             Item2Button.isHidden = false
             
-            Item1Label.text = gameLogic.itemListToSend![0].Name
-            Item2Label.text = gameLogic.itemListToSend![1].Name
+            Item1Label.text = itemListViewModel.item1LabelText
+            Item2Label.text = itemListViewModel.item2LabelText
         case 3:
             Item1Label.isHidden = false
             Item1Button.isHidden = false
@@ -79,9 +72,9 @@ class ItemListViewController: UIViewController, Storyboarded {
             Item3Label.isHidden = false
             Item3Button.isHidden = false
             
-            Item1Label.text = gameLogic.itemListToSend![0].Name
-            Item2Label.text = gameLogic.itemListToSend![1].Name
-            Item3Label.text = gameLogic.itemListToSend![2].Name
+            Item1Label.text = itemListViewModel.item1LabelText
+            Item2Label.text = itemListViewModel.item2LabelText
+            Item3Label.text = itemListViewModel.item3LabelText
         case 4:
             Item1Label.isHidden = false
             Item1Button.isHidden = false
@@ -95,10 +88,10 @@ class ItemListViewController: UIViewController, Storyboarded {
             Item4Label.isHidden = false
             Item4Button.isHidden = false
             
-            Item1Label.text = gameLogic.itemListToSend![0].Name
-            Item2Label.text = gameLogic.itemListToSend![1].Name
-            Item3Label.text = gameLogic.itemListToSend![2].Name
-            Item4Label.text = gameLogic.itemListToSend![3].Name
+            Item1Label.text = itemListViewModel.item1LabelText
+            Item2Label.text = itemListViewModel.item2LabelText
+            Item3Label.text = itemListViewModel.item3LabelText
+            Item4Label.text = itemListViewModel.item4LabelText
         case 5:
             Item1Label.isHidden = false
             Item1Button.isHidden = false
@@ -115,11 +108,11 @@ class ItemListViewController: UIViewController, Storyboarded {
             Item5Label.isHidden = false
             Item5Button.isHidden = false
             
-            Item1Label.text = gameLogic.itemListToSend![0].Name
-            Item2Label.text = gameLogic.itemListToSend![1].Name
-            Item3Label.text = gameLogic.itemListToSend![2].Name
-            Item4Label.text = gameLogic.itemListToSend![3].Name
-            Item5Label.text = gameLogic.itemListToSend![4].Name
+            Item1Label.text = itemListViewModel.item1LabelText
+            Item2Label.text = itemListViewModel.item2LabelText
+            Item3Label.text = itemListViewModel.item3LabelText
+            Item4Label.text = itemListViewModel.item4LabelText
+            Item5Label.text = itemListViewModel.item5LabelText
         default:
             Item1Label.isHidden = false
             Item1Button.isHidden = false
@@ -139,33 +132,22 @@ class ItemListViewController: UIViewController, Storyboarded {
             Item6Label.isHidden = false
             Item6Button.isHidden = false
             
-            Item1Label.text = gameLogic.itemListToSend![0].Name
-            Item2Label.text = gameLogic.itemListToSend![1].Name
-            Item3Label.text = gameLogic.itemListToSend![2].Name
-            Item4Label.text = gameLogic.itemListToSend![3].Name
-            Item5Label.text = gameLogic.itemListToSend![4].Name
-            Item6Label.text = gameLogic.itemListToSend![5].Name
+            Item1Label.text = itemListViewModel.item1LabelText
+            Item2Label.text = itemListViewModel.item2LabelText
+            Item3Label.text = itemListViewModel.item3LabelText
+            Item4Label.text = itemListViewModel.item4LabelText
+            Item5Label.text = itemListViewModel.item5LabelText
+            Item6Label.text = itemListViewModel.item6LabelText
         }
     }
     
-    func updateItem(item: Item, indexToChange: Int){
-        currentCharacter.equipItem(item: item, slot: indexToChange)
-        
-    }
-    
     @IBAction func addButtonPressed(_ sender: UIButton) {
-        aB.playButtonSound("buttonClicked")
-        let index = sender.tag
-        print(index)
-        let itemToSave = gameLogic.itemListToSend![index]
-        
-        updateItem(item: itemToSave, indexToChange: indexToChange!)
-        charInit.initCharacter()
+        itemListViewModel.addButtonPressed(button: sender.tag)
         coordinator?.listToInventory(vc: self)
     }
     
     @IBAction func returnButtonPressed(_ sender: Any) {
-        aB.playButtonSound("buttonClicked")
+        itemListViewModel.playButtonSound()
         coordinator?.listToInventory(vc: self)
     }
 }
