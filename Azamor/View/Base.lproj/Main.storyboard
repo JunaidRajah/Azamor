@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
@@ -12,7 +12,7 @@
         <!--My Character View Controller-->
         <scene sceneID="Kut-Te-NFG">
             <objects>
-                <viewController id="lP6-2d-D4u" customClass="MyCharacterViewController" customModule="Azamor" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MyCharacterViewController" id="lP6-2d-D4u" customClass="MyCharacterViewController" customModule="Azamor" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="pTa-qR-yld">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -348,8 +348,6 @@
                         <outlet property="StrLabel" destination="uDQ-2e-93p" id="abL-38-kTg"/>
                         <outlet property="WisLabel" destination="57J-FH-zeX" id="RGD-q2-VDr"/>
                         <outlet property="charImage" destination="vaz-kz-4zU" id="g9m-UK-KNf"/>
-                        <segue destination="d2g-uC-hjW" kind="presentation" identifier="charToMain" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="f2g-1q-7bP"/>
-                        <segue destination="tM5-NL-Zge" kind="presentation" identifier="charToSelect" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="sdc-KZ-5Lo"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YDS-7o-yHh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -359,7 +357,7 @@
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Azamor" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ViewController" id="BYZ-38-t0r" customClass="ViewController" customModule="Azamor" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -398,7 +396,6 @@
                     </view>
                     <connections>
                         <outlet property="startButton" destination="Rqr-IS-oPp" id="Zt6-sj-AtF"/>
-                        <segue destination="d2g-uC-hjW" kind="presentation" identifier="goToMenu" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="x8Y-Fe-Uga"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -408,7 +405,7 @@
         <!--Character Select View Controller-->
         <scene sceneID="foe-sE-JJK">
             <objects>
-                <viewController id="tM5-NL-Zge" customClass="CharacterSelectViewController" customModule="Azamor" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="CharacterSelectViewController" id="tM5-NL-Zge" customClass="CharacterSelectViewController" customModule="Azamor" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="x76-um-Bka">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -571,14 +568,10 @@
                             <constraint firstItem="jKT-E7-juv" firstAttribute="top" secondItem="0RR-ex-2OW" secondAttribute="top" constant="35" id="ziW-dz-3GH"/>
                         </constraints>
                     </view>
-                    <connections>
-                        <segue destination="hYR-Rp-eGL" kind="presentation" identifier="selectToStory" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="1rK-gP-6wi"/>
-                        <segue destination="lP6-2d-D4u" kind="presentation" identifier="selectToChar" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="G3S-4U-hLi"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BKE-VF-1zw" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1007.6923076923076" y="-714.45497630331749"/>
+            <point key="canvasLocation" x="1009" y="-641"/>
         </scene>
         <!--Main Menu View Controller-->
         <scene sceneID="4oS-Ft-aNR">
@@ -649,9 +642,6 @@
                     <connections>
                         <outlet property="armButton" destination="A5d-gf-cye" id="wQq-2d-tlS"/>
                         <outlet property="charButton" destination="4d3-kZ-g91" id="PRX-cl-yku"/>
-                        <segue destination="hYR-Rp-eGL" kind="presentation" identifier="showStoryTab" modalPresentationStyle="fullScreen" modalTransitionStyle="partialCurl" id="r8a-ne-sYB"/>
-                        <segue destination="2w4-sK-Uhb" kind="presentation" identifier="mainToInventory" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="JQg-Q0-TYM"/>
-                        <segue destination="lP6-2d-D4u" kind="presentation" identifier="mainToChar" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="p7m-Jp-rXZ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KB5-dc-6HQ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -661,7 +651,7 @@
         <!--Item View Controller-->
         <scene sceneID="JKg-Vm-3Ve">
             <objects>
-                <viewController id="nLm-1b-qua" customClass="ItemViewController" customModule="Azamor" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ItemViewController" id="nLm-1b-qua" customClass="ItemViewController" customModule="Azamor" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="hLB-8z-YTd">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -792,8 +782,6 @@
                         <outlet property="ItemsLabel" destination="NHL-eM-w6U" id="Zcb-VW-2if"/>
                         <outlet property="MoveButton" destination="QPn-Kj-0xP" id="8fN-rd-OWV"/>
                         <outlet property="inventoryButton" destination="lob-Rv-49W" id="EJk-gM-Oh7"/>
-                        <segue destination="hYR-Rp-eGL" kind="presentation" identifier="itemToStory" modalPresentationStyle="fullScreen" id="XU2-Lx-Bht"/>
-                        <segue destination="2w4-sK-Uhb" kind="presentation" identifier="itemToInventory" id="Ah1-a3-ogL"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IhW-hE-8Yk" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -803,7 +791,7 @@
         <!--Story Tab View Controller-->
         <scene sceneID="155-x8-K8U">
             <objects>
-                <viewController id="hYR-Rp-eGL" customClass="StoryTabViewController" customModule="Azamor" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="StoryTabViewController" id="hYR-Rp-eGL" customClass="StoryTabViewController" customModule="Azamor" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Ipk-Gh-DHt">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1100,12 +1088,6 @@
                         <outlet property="backgroundImage" destination="wfT-n5-IGG" id="wd2-Qd-MLK"/>
                         <outlet property="homeButton" destination="q7i-XH-IcF" id="mcd-9u-qkZ"/>
                         <outlet property="inventoryButton" destination="YCI-Wf-imm" id="g7e-o5-Roy"/>
-                        <segue destination="yeA-9y-obb" kind="presentation" identifier="storyToDice" id="Hyt-VF-clk"/>
-                        <segue destination="3a3-Hp-And" kind="presentation" identifier="storyToEncounter" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="bPG-h0-hhW"/>
-                        <segue destination="nLm-1b-qua" kind="presentation" identifier="storyToItems" modalPresentationStyle="fullScreen" id="pLF-NR-1Hn"/>
-                        <segue destination="2w4-sK-Uhb" kind="presentation" identifier="storyToInventory" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="XjI-V4-EpU"/>
-                        <segue destination="d2g-uC-hjW" kind="presentation" identifier="storyToMain" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="8ml-ef-j83"/>
-                        <segue destination="tM5-NL-Zge" kind="presentation" identifier="storyToSelect" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="dsv-T3-GZp"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1tt-9C-RdD" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -1115,7 +1097,7 @@
         <!--Inventory View Controller-->
         <scene sceneID="gHF-Mp-dM7">
             <objects>
-                <viewController id="2w4-sK-Uhb" customClass="InventoryViewController" customModule="Azamor" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="InventoryViewController" id="2w4-sK-Uhb" customClass="InventoryViewController" customModule="Azamor" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="M0S-bb-9hn">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1321,11 +1303,6 @@
                         <outlet property="Weapon2Image" destination="78f-Gc-VYI" id="x7c-jj-WTf"/>
                         <outlet property="backButton" destination="i4m-uy-wuG" id="gtL-rb-auV"/>
                         <outlet property="charImage" destination="fPc-JW-vxK" id="iEs-jM-3FS"/>
-                        <segue destination="i16-xA-yrU" kind="presentation" identifier="inventoryToList" modalPresentationStyle="fullScreen" id="cXu-j6-fHw"/>
-                        <segue destination="d2g-uC-hjW" kind="presentation" identifier="inventoryToMain" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="BsK-5Q-kG4"/>
-                        <segue destination="hYR-Rp-eGL" kind="presentation" identifier="invertoryToStory" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="IzZ-FU-SJP"/>
-                        <segue destination="3a3-Hp-And" kind="presentation" identifier="inventoryToEncounter" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="7ck-UY-zK3"/>
-                        <segue destination="nLm-1b-qua" kind="presentation" identifier="inventoryToItem" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="egb-or-aEs"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2WH-a1-bV4" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -1335,7 +1312,7 @@
         <!--Item List View Controller-->
         <scene sceneID="GSq-2r-gTH">
             <objects>
-                <viewController id="i16-xA-yrU" customClass="ItemListViewController" customModule="Azamor" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ItemListViewController" id="i16-xA-yrU" customClass="ItemListViewController" customModule="Azamor" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="ZR0-Mc-3cv">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1560,7 +1537,6 @@
                         <outlet property="Item5Label" destination="Sn3-v7-Q10" id="seO-Ue-IAY"/>
                         <outlet property="Item6Button" destination="UEu-HO-5x5" id="Z71-gi-n15"/>
                         <outlet property="Item6Label" destination="OwB-w4-wOz" id="biy-bT-61P"/>
-                        <segue destination="2w4-sK-Uhb" kind="presentation" identifier="listToInventory" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="j9C-h6-D97"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bab-YS-I6i" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -1570,7 +1546,7 @@
         <!--Encounter View Controller-->
         <scene sceneID="Rvc-H3-eci">
             <objects>
-                <viewController id="3a3-Hp-And" customClass="EncounterViewController" customModule="Azamor" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="EncounterViewController" id="3a3-Hp-And" customClass="EncounterViewController" customModule="Azamor" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="hPE-gB-i2q">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -2086,8 +2062,6 @@
                         <outlet property="WeaponAction1Label" destination="scY-wm-6Ao" id="L51-we-wxq"/>
                         <outlet property="WeaponAction2Button" destination="1ff-qR-xZD" id="Uid-uH-Jzg"/>
                         <outlet property="WeaponAction2Label" destination="a13-gF-6o2" id="uos-xf-bp7"/>
-                        <segue destination="hYR-Rp-eGL" kind="presentation" identifier="encounterToStory" modalPresentationStyle="fullScreen" id="QqG-oA-wdb"/>
-                        <segue destination="2w4-sK-Uhb" kind="presentation" identifier="encounterToInventory" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="4NW-Lv-JO9"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="m7o-7t-QDQ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -2097,43 +2071,43 @@
         <!--Dice View Controller-->
         <scene sceneID="v7d-yk-1VT">
             <objects>
-                <viewController id="yeA-9y-obb" customClass="DiceViewController" customModule="Azamor" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="DiceViewController" id="yeA-9y-obb" customClass="DiceViewController" customModule="Azamor" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="aUt-Cx-YUS">
-                        <rect key="frame" x="0.0" y="0.0" width="390" height="790"/>
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="diceBack1" translatesAutoresizingMaskIntoConstraints="NO" id="HeT-LL-vNe">
-                                <rect key="frame" x="0.0" y="0.0" width="390" height="790"/>
+                                <rect key="frame" x="0.0" y="44" width="390" height="800"/>
                             </imageView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="D20" translatesAutoresizingMaskIntoConstraints="NO" id="K4v-Pd-8v0">
-                                <rect key="frame" x="-56" y="206" width="502" height="379"/>
+                                <rect key="frame" x="-56" y="250" width="502" height="389"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Roll Strength" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.29999999999999999" translatesAutoresizingMaskIntoConstraints="NO" id="buO-6N-chM">
-                                <rect key="frame" x="101" y="55" width="188" height="50"/>
+                                <rect key="frame" x="101" y="99" width="188" height="50"/>
                                 <fontDescription key="fontDescription" name="Papyrus" family="Papyrus" pointSize="32"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="DC To Beat: 10" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.29999999999999999" translatesAutoresizingMaskIntoConstraints="NO" id="fyK-yC-liZ">
-                                <rect key="frame" x="108" y="113" width="174" height="41"/>
+                                <rect key="frame" x="108" y="157" width="174" height="41"/>
                                 <fontDescription key="fontDescription" name="Papyrus" family="Papyrus" pointSize="26"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You have 0 Attempts Remaining" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.29999999999999999" translatesAutoresizingMaskIntoConstraints="NO" id="BLZ-dE-RRB">
-                                <rect key="frame" x="28" y="605" width="335" height="38"/>
+                                <rect key="frame" x="28" y="659" width="335" height="38"/>
                                 <fontDescription key="fontDescription" name="Papyrus" family="Papyrus" pointSize="24"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="20" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.29999999999999999" translatesAutoresizingMaskIntoConstraints="NO" id="dfc-jR-sWr">
-                                <rect key="frame" x="178.66666666666666" y="373.66666666666669" width="33" height="44"/>
+                                <rect key="frame" x="178.66666666666666" y="422.66666666666669" width="33" height="44"/>
                                 <fontDescription key="fontDescription" name="Papyrus" family="Papyrus" pointSize="28"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6f8-4J-2BN">
-                                <rect key="frame" x="146" y="666" width="99" height="50"/>
+                                <rect key="frame" x="146" y="720" width="99" height="50"/>
                                 <color key="backgroundColor" red="0.78390204910000005" green="0.65896183249999996" blue="0.241400063" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="44" id="JiC-JD-Lqg"/>
@@ -2149,7 +2123,7 @@
                                 </connections>
                             </button>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mLs-Ge-Kjy">
-                                <rect key="frame" x="146" y="666" width="99" height="50"/>
+                                <rect key="frame" x="146" y="720" width="99" height="50"/>
                                 <color key="backgroundColor" red="0.78390204910000005" green="0.65896183249999996" blue="0.241400063" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="44" id="NQC-ka-Bts"/>
@@ -2204,9 +2178,6 @@
                         <outlet property="ReturnButton" destination="mLs-Ge-Kjy" id="rPN-kD-mGN"/>
                         <outlet property="RollButton" destination="6f8-4J-2BN" id="tGd-7S-Mwp"/>
                         <outlet property="RollTypeLabel" destination="buO-6N-chM" id="3jA-8a-uOC"/>
-                        <segue destination="hYR-Rp-eGL" kind="presentation" identifier="diceToStory" modalPresentationStyle="fullScreen" id="Etu-yL-QIq"/>
-                        <segue destination="nLm-1b-qua" kind="presentation" identifier="diceToItem" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="y8l-Pb-ciK"/>
-                        <segue destination="3a3-Hp-And" kind="presentation" identifier="diceToEncounter" modalTransitionStyle="crossDissolve" id="tQO-aR-sXI"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ttj-vw-fg8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -2219,15 +2190,6 @@
             <size key="intrinsicContentSize" width="3437.6666666666665" height="62"/>
         </designable>
     </designables>
-    <inferredMetricsTieBreakers>
-        <segue reference="bPG-h0-hhW"/>
-        <segue reference="4NW-Lv-JO9"/>
-        <segue reference="QqG-oA-wdb"/>
-        <segue reference="pLF-NR-1Hn"/>
-        <segue reference="8ml-ef-j83"/>
-        <segue reference="dsv-T3-GZp"/>
-        <segue reference="p7m-Jp-rXZ"/>
-    </inferredMetricsTieBreakers>
     <resources>
         <image name="ActionBorder" width="400" height="200"/>
         <image name="Armor1" width="300" height="300"/>

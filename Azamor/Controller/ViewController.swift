@@ -8,18 +8,17 @@
 import UIKit
 import AVFoundation
 
-class ViewController: UIViewController {
-
+class ViewController: UIViewController, Storyboarded {
+    
+    var coordinator: MainCoordinator?
     var player: AVPlayer?
-    var aB = audioBrain()
+    var initialViewModel = InitialViewModel()
     
     @IBOutlet weak var startButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         playBackgroundVideo()
-        aB.playBackgroundSound("Start")
-        // Do any additional setup after loading the view.
     }
     
     func playBackgroundVideo() {
@@ -47,15 +46,9 @@ class ViewController: UIViewController {
 
     
     @IBAction func startButtonPressed(_ sender: UIButton) {
-        performSegue(withIdentifier: "goToMenu", sender: self)
+        coordinator?.gameStartButton(vc: self)
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "goToMenu" {
-            let destinationVC = segue.destination as! MainMenuViewController
-            destinationVC.aB = aB
-        }
-    }
     
 }
 

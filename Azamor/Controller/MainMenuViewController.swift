@@ -7,47 +7,32 @@
 
 import UIKit
 import AVFoundation
-import RealmSwift
 
-class MainMenuViewController: UIViewController {
+class MainMenuViewController: UIViewController, Storyboarded {
 
-    let realm = try! Realm()
+    var coordinator: MainCoordinator?
     var player: AVPlayer?
-    var aB = audioBrain()
-    var currentTrack = "Start"
+    var mainMenuViewModel = MainMenuViewModel()
     
     @IBOutlet weak var charButton: UIButton!
     @IBOutlet weak var armButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        initView()
+    }
+    
+    func initView() {
         playBackgroundVideo()
-            
-        let currentGame = realm.objects(Game.self).first
-        
-        let storyTabs = realm.objects(StoryTab.self)
-        let pred = "StoryTabID = '\(String(describing: currentGame!.CurrentStoryTab))'"
-        
-        var currentStoryTab = storyTabs.filter(pred).first
-        
-        if currentStoryTab!.StoryTabID == "S01a" || currentStoryTab!.StoryTabID == "S01b" || currentStoryTab!.StoryTabID == "S01c" || currentStoryTab!.StoryTabID == "S01d"
-            || currentStoryTab!.StoryTabID == "S01e" || currentStoryTab!.StoryTabID == "S01f" || currentStoryTab!.StoryTabID == "S01g" || currentStoryTab!.StoryTabID == "S01h"
-            || currentStoryTab!.StoryTabID == "S01i" || currentStoryTab!.StoryTabID == "S01j" || currentStoryTab!.StoryTabID == "S01k" || currentStoryTab!.StoryTabID == "S01l"
-            || currentStoryTab!.StoryTabID == "S01m" || currentStoryTab!.StoryTabID == "S01n" || currentStoryTab!.StoryTabID == "S01oE" || currentStoryTab!.StoryTabID == "S01p"
-            || currentStoryTab!.StoryTabID == "S02a" || currentStoryTab!.StoryTabID == "S02b" || currentStoryTab!.StoryTabID == "S02c" {
-            
+        if mainMenuViewModel.checkIfStartingCharIsActive() {
             charButton.isEnabled = false
             armButton.isEnabled = false
         }
-        // Do any additional setup after loading the view.
     }
     
     @IBAction func enterAzamorButtonPressed(_ sender: UIButton) {
-        aB.playButtonSound("buttonClicked")
-        let char = characterBrain()
-        char.initCharacter()
-        performSegue(withIdentifier: "showStoryTab", sender: self)
-        
+        mainMenuViewModel.enterAzamorButtonPressed()
+        coordinator?.mainToStory(vc: self)
     }
     
     
@@ -73,34 +58,13 @@ class MainMenuViewController: UIViewController {
         player!.seek(to: CMTime.zero)
     }
     @IBAction func inventoryButtonPressed(_ sender: UIButton) {
-        aB.playButtonSound("buttonClicked")
-        performSegue(withIdentifier: "mainToInventory", sender: self)
+        mainMenuViewModel.playButtonSound()
+        coordinator?.mainToInventory(vc: self)
     }
     
     @IBAction func characterButtonPressed(_ sender: UIButton) {
-        aB.playButtonSound("buttonClicked")
-        performSegue(withIdentifier: "mainToChar", sender: self)
+        mainMenuViewModel.playButtonSound()
+        coordinator?.mainToChar(vc: self)
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "mainToInventory" {
-            let destinationVC = segue.destination as! InventoryViewController
-            destinationVC.isFromMain = true
-            destinationVC.aB = aB
-            destinationVC.currentTrack = currentTrack
-        }
-        
-        if segue.identifier == "mainToChar" {
-            let destinationVC = segue.destination as! MyCharacterViewController
-            destinationVC.aB = aB
-            destinationVC.isFromMain = true
-            destinationVC.currentTrack = currentTrack
-        }
-        
-        if segue.identifier == "showStoryTab" {
-            let destinationVC = segue.destination as! StoryTabViewController
-            destinationVC.currentTrack = currentTrack
-            destinationVC.aB = aB
-        }
-    }
 }

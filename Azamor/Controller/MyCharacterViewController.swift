@@ -8,13 +8,10 @@
 import UIKit
 import RealmSwift
 
-class MyCharacterViewController: UIViewController {
+class MyCharacterViewController: UIViewController, Storyboarded {
     
-    let realm = try! Realm()
-    var aB = audioBrain()
-    var currentCharacter = characterBrain()
-    
-    var currentTrack: String?
+    var coordinator: MainCoordinator?
+    var myCharacterViewModel = MyCharacterViewModel()
     
     var isFromMain = true
 
@@ -34,46 +31,30 @@ class MyCharacterViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        currentCharacter.initCharacter()
         initView()
     }
     
     func initView() {
-        NameLabel.text = currentCharacter.returnName()
-        HpLabel.text = String(currentCharacter.maxHP())
-        ACLabel.text = String(currentCharacter.returnAC())
-        LevelLabel.text = String(currentCharacter.returnLevel())
-        AttackLabel.text = String(currentCharacter.returnAttackMod())
-        StrLabel.text = String(10 + currentCharacter.returnStrengthMod())
-        DexLabel.text = String(10 + currentCharacter.returnDexterityMod())
-        ConLabel.text = String(10 + currentCharacter.returnConstitutionMod())
-        WisLabel.text = String(10 + currentCharacter.returnWisdomMod())
-        IntLabel.text = String(10 + currentCharacter.returnIntelligenceMod())
-        ChaLabel.text = String(10 + currentCharacter.returnCharismaMod())
+        NameLabel.text = myCharacterViewModel.nameLabelText
+        HpLabel.text = myCharacterViewModel.hpLabelText
+        ACLabel.text = myCharacterViewModel.acLabelText
+        LevelLabel.text = myCharacterViewModel.levelLabelText
+        AttackLabel.text = myCharacterViewModel.attackLabelText
+        StrLabel.text = myCharacterViewModel.strLabelText
+        DexLabel.text = myCharacterViewModel.dexLabelText
+        ConLabel.text = myCharacterViewModel.conLabelText
+        WisLabel.text = myCharacterViewModel.wisLabelText
+        IntLabel.text = myCharacterViewModel.intLabelText
+        ChaLabel.text = myCharacterViewModel.chaLabelText
         
-        charImage.image = UIImage(named: currentCharacter.returnImgString())
+        charImage.image = UIImage(named: myCharacterViewModel.charImageString!)
     }
     
     @IBAction func backButtonPressed(_ sender: UIButton) {
         if isFromMain == true {
-            performSegue(withIdentifier: "charToMain", sender: self)
+            coordinator?.charToMain(vc: self)
         } else {
-            performSegue(withIdentifier: "charToSelect", sender: self)
+            coordinator?.charToSelect(vc: self)
         }
     }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "charToMain" {
-            let destinationVC = segue.destination as! MainMenuViewController
-            destinationVC.currentTrack = currentTrack!
-            destinationVC.aB = aB
-        }
-        if segue.identifier == "charToSelect" {
-            let destinationVC = segue.destination as! CharacterSelectViewController
-            destinationVC.currentTrack = currentTrack
-            destinationVC.aB = aB
-        }
-    }
-    
-
 }

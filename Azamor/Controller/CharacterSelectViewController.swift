@@ -8,91 +8,22 @@
 import UIKit
 import RealmSwift
 
-class CharacterSelectViewController: UIViewController {
+class CharacterSelectViewController: UIViewController, Storyboarded {
     
-    let realm = try! Realm()
-    var aB = audioBrain()
-    
-    var currentGame: Game?
-    
-    var currentTrack: String?
+    var coordinator: MainCoordinator?
+    var characterSelectViewModel = CharacterSelectViewModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        currentGame = realm.objects(Game.self).first
-        
     }
     
     @IBAction func moreButtonPresssed(_ sender: UIButton) {
-        if sender.tag == 1 {
-            do {
-                let raziel = realm.objects(PlayerCharacter.self)[0]
-                try realm.write {
-                    currentGame!.setValue(raziel, forKey: "GamePlayerCharacter")
-                }
-            } catch  {
-                print(error)
-            }
-            aB.playButtonSound("buttonClicked")
-            performSegue(withIdentifier: "selectToChar", sender: self)
-        }
-        else if sender.tag == 2 {
-            do {
-                let razaila = realm.objects(PlayerCharacter.self)[1]
-                try realm.write {
-                    currentGame!.setValue(razaila, forKey: "GamePlayerCharacter")
-                }
-            } catch  {
-                print(error)
-            }
-            aB.playButtonSound("buttonClicked")
-            performSegue(withIdentifier: "selectToChar", sender: self)
-        }
+        characterSelectViewModel.moreButtonPresssed(button: sender.tag)
+        coordinator?.selectToChar(vc: self)
     }
     
     @IBAction func selectButtonPressed(_ sender: UIButton) {
-        if sender.tag == 1 {
-            do {
-                let raziel = realm.objects(PlayerCharacter.self)[0]
-                try realm.write {
-                    currentGame!.setValue(raziel, forKey: "GamePlayerCharacter")
-                }
-            } catch  {
-                print(error)
-            }
-            aB.playButtonSound("buttonClicked")
-            performSegue(withIdentifier: "selectToStory", sender: self)
-        }
-        else if sender.tag == 2 {
-            do {
-                let razaila = realm.objects(PlayerCharacter.self)[1]
-                try realm.write {
-                    currentGame!.setValue(razaila, forKey: "GamePlayerCharacter")
-                }
-            } catch  {
-                print(error)
-            }
-            aB.playButtonSound("buttonClicked")
-            aB.stopSoundBack()
-            performSegue(withIdentifier: "selectToStory", sender: self)
-        }
+        characterSelectViewModel.selectButtonPressed(button: sender.tag)
+        coordinator?.selectToStory(vc: self)
     }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "selectToStory" {
-            let destinationVC = segue.destination as! StoryTabViewController
-            destinationVC.currentTrack = currentTrack
-            destinationVC.aB = aB
-        }
-        
-        if segue.identifier == "selectToChar" {
-            let destinationVC = segue.destination as! MyCharacterViewController
-            destinationVC.aB = aB
-            destinationVC.currentTrack = currentTrack
-            destinationVC.isFromMain = false
-        }
-        
-        
-    }
-
 }

@@ -9,10 +9,10 @@ import UIKit
 import RealmSwift
 import AVFoundation
 
-class ItemListViewController: UIViewController {
-
-    let realm = try! Realm()
-    var aB = audioBrain()
+class ItemListViewController: UIViewController, Storyboarded {
+    
+    var coordinator: MainCoordinator?
+    var itemListViewModel = ItemListViewModel()
     
     @IBOutlet weak var Item1Label: UILabel!
     @IBOutlet weak var Item2Label: UILabel!
@@ -35,35 +35,24 @@ class ItemListViewController: UIViewController {
     
     var indexToChange: Int?
     
-    var itemList: Results<Item>?
-    var currentCharacter = characterBrain()
-    var currentTrack: String?
-    
-    let charInit = characterBrain()
-    
-    var currentStoryTabString = ""
     var isPlayerTurn = false
-    var storyTabToReturn = ""
         
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        let game =  realm.objects(Game.self).first
-        currentCharacter.initCharacter()
-        
+        itemListViewModel.passIndexToChange(index: indexToChange!)
         initView()
     }
     
     func initView(){
-        switch itemList!.count {
+        switch itemListViewModel.itemListAmount {
         case 0:
             Item1Label.isHidden = false
-            Item1Label.text = "No Available Items"
+            Item1Label.text = itemListViewModel.item1LabelText
         case 1:
             Item1Label.isHidden = false
             Item1Button.isHidden = false
             
-            Item1Label.text = itemList![0].Name
+            Item1Label.text = itemListViewModel.item1LabelText
         case 2:
             Item1Label.isHidden = false
             Item1Button.isHidden = false
@@ -71,8 +60,8 @@ class ItemListViewController: UIViewController {
             Item2Label.isHidden = false
             Item2Button.isHidden = false
             
-            Item1Label.text = itemList![0].Name
-            Item2Label.text = itemList![1].Name
+            Item1Label.text = itemListViewModel.item1LabelText
+            Item2Label.text = itemListViewModel.item2LabelText
         case 3:
             Item1Label.isHidden = false
             Item1Button.isHidden = false
@@ -83,9 +72,9 @@ class ItemListViewController: UIViewController {
             Item3Label.isHidden = false
             Item3Button.isHidden = false
             
-            Item1Label.text = itemList![0].Name
-            Item2Label.text = itemList![1].Name
-            Item3Label.text = itemList![2].Name
+            Item1Label.text = itemListViewModel.item1LabelText
+            Item2Label.text = itemListViewModel.item2LabelText
+            Item3Label.text = itemListViewModel.item3LabelText
         case 4:
             Item1Label.isHidden = false
             Item1Button.isHidden = false
@@ -99,10 +88,10 @@ class ItemListViewController: UIViewController {
             Item4Label.isHidden = false
             Item4Button.isHidden = false
             
-            Item1Label.text = itemList![0].Name
-            Item2Label.text = itemList![1].Name
-            Item3Label.text = itemList![2].Name
-            Item4Label.text = itemList![3].Name
+            Item1Label.text = itemListViewModel.item1LabelText
+            Item2Label.text = itemListViewModel.item2LabelText
+            Item3Label.text = itemListViewModel.item3LabelText
+            Item4Label.text = itemListViewModel.item4LabelText
         case 5:
             Item1Label.isHidden = false
             Item1Button.isHidden = false
@@ -119,11 +108,11 @@ class ItemListViewController: UIViewController {
             Item5Label.isHidden = false
             Item5Button.isHidden = false
             
-            Item1Label.text = itemList![0].Name
-            Item2Label.text = itemList![1].Name
-            Item3Label.text = itemList![2].Name
-            Item4Label.text = itemList![3].Name
-            Item5Label.text = itemList![4].Name
+            Item1Label.text = itemListViewModel.item1LabelText
+            Item2Label.text = itemListViewModel.item2LabelText
+            Item3Label.text = itemListViewModel.item3LabelText
+            Item4Label.text = itemListViewModel.item4LabelText
+            Item5Label.text = itemListViewModel.item5LabelText
         default:
             Item1Label.isHidden = false
             Item1Button.isHidden = false
@@ -143,49 +132,22 @@ class ItemListViewController: UIViewController {
             Item6Label.isHidden = false
             Item6Button.isHidden = false
             
-            Item1Label.text = itemList![0].Name
-            Item2Label.text = itemList![1].Name
-            Item3Label.text = itemList![2].Name
-            Item4Label.text = itemList![3].Name
-            Item5Label.text = itemList![4].Name
-            Item6Label.text = itemList![5].Name
+            Item1Label.text = itemListViewModel.item1LabelText
+            Item2Label.text = itemListViewModel.item2LabelText
+            Item3Label.text = itemListViewModel.item3LabelText
+            Item4Label.text = itemListViewModel.item4LabelText
+            Item5Label.text = itemListViewModel.item5LabelText
+            Item6Label.text = itemListViewModel.item6LabelText
         }
-    }
-    
-    func updateItem(item: Item, indexToChange: Int){
-        currentCharacter.equipItem(item: item, slot: indexToChange)
-        
     }
     
     @IBAction func addButtonPressed(_ sender: UIButton) {
-        aB.playButtonSound("buttonClicked")
-        let index = sender.tag
-        print(index)
-        let itemToSave = itemList![index]
-        
-        updateItem(item: itemToSave, indexToChange: indexToChange!)
-        charInit.initCharacter()
-        performSegue(withIdentifier: "listToInventory", sender: self)
+        itemListViewModel.addButtonPressed(button: sender.tag)
+        coordinator?.listToInventory(vc: self)
     }
     
     @IBAction func returnButtonPressed(_ sender: Any) {
-        aB.playButtonSound("buttonClicked")
-        performSegue(withIdentifier: "listToInventory", sender: self)
+        itemListViewModel.playButtonSound()
+        coordinator?.listToInventory(vc: self)
     }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "listToInventory" {
-            let destinationVC = segue.destination as! InventoryViewController
-            destinationVC.isFromStory = isFromStory
-            destinationVC.isFromMain = isFromMain
-            destinationVC.isFromItem = isFromItem
-            destinationVC.isFromEncounter = isFromEncounter
-            destinationVC.currentStoryTabString = currentStoryTabString
-            destinationVC.isPlayerTurn = isPlayerTurn
-            destinationVC.storyTabToReturn = storyTabToReturn
-            destinationVC.currentTrack = currentTrack
-            destinationVC.aB = aB
-        }
-    }
-
 }
