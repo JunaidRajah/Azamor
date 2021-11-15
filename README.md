@@ -1,4 +1,4 @@
-# Atmo Weather (iOS Application)
+# Azamor Weather (iOS Application)
 
 ## Project Description
 
